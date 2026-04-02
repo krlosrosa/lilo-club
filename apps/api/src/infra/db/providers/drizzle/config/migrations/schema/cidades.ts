@@ -1,4 +1,4 @@
-import { pgTable, text, integer, boolean } from 'drizzle-orm/pg-core';
+import { pgTable, text, bigint, boolean } from 'drizzle-orm/pg-core';
 import { users } from './users';
 
 export const cidades = pgTable('cidades', {
@@ -7,7 +7,7 @@ export const cidades = pgTable('cidades', {
   uf: text('uf').notNull(),
   slug: text('slug').notNull().unique(),
   dominio: text('dominio').unique(),
-  createdAt: integer('created_at').notNull(),
+  createdAt: bigint('created_at', { mode: 'number' }).notNull(),
 });
 
 export const cidadesAfiliados = pgTable('cidades_afiliados', {
@@ -19,5 +19,5 @@ export const cidadesAfiliados = pgTable('cidades_afiliados', {
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
   ativo: boolean('ativo').notNull().default(true),
-  createdAt: integer('created_at').notNull(),
+  createdAt: bigint('created_at', { mode: 'number' }).notNull(),
 });

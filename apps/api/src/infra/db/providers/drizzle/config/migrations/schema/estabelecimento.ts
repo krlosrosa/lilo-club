@@ -1,4 +1,4 @@
-import { pgTable, text, integer, real, boolean } from 'drizzle-orm/pg-core';
+import { pgTable, text, integer, bigint, real, boolean } from 'drizzle-orm/pg-core';
 import { accounts } from './saas';
 import { cidades } from './cidades';
 import { users } from './users';
@@ -35,8 +35,8 @@ export const estabelecimentos = pgTable('estabelecimentos', {
   createdByUserId: text('created_by_user_id').references(() => users.id, {
     onDelete: 'set null',
   }),
-  createdAt: integer('created_at').notNull(),
-  updatedAt: integer('updated_at').notNull(),
+  createdAt: bigint('created_at', { mode: 'number' }).notNull(),
+  updatedAt: bigint('updated_at', { mode: 'number' }).notNull(),
 });
 
 export const estabelecimentosEnderecos = pgTable('estabelecimentos_enderecos', {
@@ -51,7 +51,7 @@ export const estabelecimentosEnderecos = pgTable('estabelecimentos_enderecos', {
   latitude: real('latitude'),
   longitude: real('longitude'),
   localVerificado: boolean('local_verificado').notNull().default(false),
-  atualizadoEm: integer('atualizado_em'),
+  atualizadoEm: bigint('atualizado_em', { mode: 'number' }),
 });
 
 export const estabelecimentosHorarioIntervalos = pgTable(
@@ -77,7 +77,7 @@ export const estabelecimentosMidias = pgTable('estabelecimentos_midias', {
   storageKey: text('storage_key').notNull(),
   urlPublica: text('url_publica'),
   ordem: integer('ordem').notNull().default(0),
-  createdAt: integer('created_at').notNull(),
+  createdAt: bigint('created_at', { mode: 'number' }).notNull(),
 });
 
 export const estabelecimentosAvaliacoes = pgTable('estabelecimentos_avaliacoes', {
@@ -89,9 +89,9 @@ export const estabelecimentosAvaliacoes = pgTable('estabelecimentos_avaliacoes',
   nota: integer('nota').notNull(),
   comentario: text('comentario'),
   resposta: text('resposta'),
-  respondidoEm: integer('respondido_em'),
+  respondidoEm: bigint('respondido_em', { mode: 'number' }),
   destaquePositivo: boolean('destaque_positivo').default(false),
   temMidia: boolean('tem_midia').notNull().default(false),
   utilCount: integer('util_count').notNull().default(0),
-  createdAt: integer('created_at').notNull(),
+  createdAt: bigint('created_at', { mode: 'number' }).notNull(),
 });

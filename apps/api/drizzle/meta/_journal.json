@@ -8,6 +8,13 @@
       "when": 1775165662004,
       "tag": "0000_fuzzy_morgan_stark",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1775169618039,
+      "tag": "0001_wandering_scalphunter",
+      "breakpoints": true
     }
   ]
 }

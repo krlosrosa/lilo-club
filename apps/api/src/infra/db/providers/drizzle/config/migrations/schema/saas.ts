@@ -1,4 +1,4 @@
-import { pgTable, text, integer, uniqueIndex, boolean } from 'drizzle-orm/pg-core';
+import { pgTable, text, integer, bigint, uniqueIndex, boolean } from 'drizzle-orm/pg-core';
 import { users } from './users';
 
 export const accounts = pgTable('accounts', {
@@ -6,8 +6,8 @@ export const accounts = pgTable('accounts', {
   nome: text('nome').notNull(),
   slug: text('slug').unique(),
   stripeCustomerId: text('stripe_customer_id'),
-  createdAt: integer('created_at').notNull(),
-  updatedAt: integer('updated_at').notNull(),
+  createdAt: bigint('created_at', { mode: 'number' }).notNull(),
+  updatedAt: bigint('updated_at', { mode: 'number' }).notNull(),
 });
 
 export const accountsUsers = pgTable(
@@ -21,7 +21,7 @@ export const accountsUsers = pgTable(
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
     role: text('role').notNull(),
-    createdAt: integer('created_at').notNull(),
+    createdAt: bigint('created_at', { mode: 'number' }).notNull(),
   },
   (t) => ({
     uqAccountUser: uniqueIndex('uq_accounts_users_account_user').on(
@@ -39,7 +39,7 @@ export const plans = pgTable('plans', {
   maxMidiasPorEstabelecimento: integer('max_midias_por_estabelecimento'),
   seloPremium: boolean('selo_premium').notNull().default(false),
   ordem: integer('ordem').notNull().default(0),
-  createdAt: integer('created_at').notNull(),
+  createdAt: bigint('created_at', { mode: 'number' }).notNull(),
 });
 
 export const subscriptions = pgTable('subscriptions', {
@@ -52,8 +52,8 @@ export const subscriptions = pgTable('subscriptions', {
     .references(() => plans.id, { onDelete: 'restrict' }),
   status: text('status').notNull(),
   providerSubscriptionId: text('provider_subscription_id'),
-  currentPeriodStart: integer('current_period_start'),
-  currentPeriodEnd: integer('current_period_end'),
+  currentPeriodStart: bigint('current_period_start', { mode: 'number' }),
+  currentPeriodEnd: bigint('current_period_end', { mode: 'number' }),
   cancelAtPeriodEnd: boolean('cancel_at_period_end').default(false),
-  createdAt: integer('created_at').notNull(),
+  createdAt: bigint('created_at', { mode: 'number' }).notNull(),
 });

@@ -1,4 +1,4 @@
-import { pgTable, text, integer, uniqueIndex } from 'drizzle-orm/pg-core';
+import { pgTable, text, bigint, uniqueIndex } from 'drizzle-orm/pg-core';
 import { users } from './users';
 
 export const oauthIdentities = pgTable(
@@ -10,7 +10,7 @@ export const oauthIdentities = pgTable(
     userId: text('user_id')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
-    createdAt: integer('created_at').notNull(),
+    createdAt: bigint('created_at', { mode: 'number' }).notNull(),
   },
   (t) => ({
     uqProviderSub: uniqueIndex('uq_oauth_identities_provider_sub').on(
