@@ -1,5 +1,10 @@
 import { randomUUID } from 'node:crypto';
-import { accounts, accountsUsers, subscriptions } from '../providers/drizzle/config/migrations/index.js';
+import {
+  accounts,
+  accountsUsers,
+  plans,
+  subscriptions,
+} from '../providers/drizzle/config/migrations/index.js';
 import type { DrizzleClient } from '../providers/drizzle/drizzle.types.js';
 import { findMembershipByUserIdDb } from './find-membership-by-user-id.drizzle.js';
 
@@ -22,6 +27,20 @@ export async function ensureBootstrapAccountDb(
   const now = Date.now();
 
   await db.transaction(async (tx) => {
+    await tx
+      .insert(plans)
+      .values({
+        id: params.planFreeId,
+        slug: 'free',
+        nome: 'Free',
+        maxEstabelecimentos: 1,
+        maxMidiasPorEstabelecimento: 5,
+        seloPremium: false,
+        ordem: 1,
+        createdAt: now,
+      })
+      .onConflictDoNothing();
+
     await tx.insert(accounts).values({
       id: accountId,
       nome: params.accountNome,
