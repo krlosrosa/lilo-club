@@ -15,15 +15,20 @@ export async function linkOAuthIdentityDb(
   },
 ): Promise<void> {
   db.transaction((tx) => {
-    tx.insert(oauthIdentities).values({
-      id: params.oauthIdentityId,
-      userId: params.userId,
-      provider: params.provider,
-      providerUserId: params.providerUserId,
-      createdAt: params.createdAt,
-    });
-    tx.update(users)
+    tx
+      .insert(oauthIdentities)
+      .values({
+        id: params.oauthIdentityId,
+        userId: params.userId,
+        provider: params.provider,
+        providerUserId: params.providerUserId,
+        createdAt: params.createdAt,
+      })
+      .run();
+    tx
+      .update(users)
       .set({ nome: params.nome, avatarUrl: params.avatarUrl })
-      .where(eq(users.id, params.userId));
+      .where(eq(users.id, params.userId))
+      .run();
   });
 }

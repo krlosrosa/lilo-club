@@ -21,19 +21,25 @@ export async function replaceHorariosForAccountDb(
   if (!est) return false;
 
   db.transaction((tx) => {
-    tx.delete(estabelecimentosHorarioIntervalos).where(
-      eq(estabelecimentosHorarioIntervalos.estabelecimentoId, estabelecimentoId),
-    );
+    tx
+      .delete(estabelecimentosHorarioIntervalos)
+      .where(
+        eq(estabelecimentosHorarioIntervalos.estabelecimentoId, estabelecimentoId),
+      )
+      .run();
 
     for (const it of intervalos) {
-      tx.insert(estabelecimentosHorarioIntervalos).values({
-        id: randomUUID(),
-        estabelecimentoId,
-        diaSemana: it.diaSemana,
-        ordem: it.ordem,
-        abre: it.abre,
-        fecha: it.fecha,
-      });
+      tx
+        .insert(estabelecimentosHorarioIntervalos)
+        .values({
+          id: randomUUID(),
+          estabelecimentoId,
+          diaSemana: it.diaSemana,
+          ordem: it.ordem,
+          abre: it.abre,
+          fecha: it.fecha,
+        })
+        .run();
     }
   });
 

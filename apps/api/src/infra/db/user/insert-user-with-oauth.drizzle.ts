@@ -17,24 +17,32 @@ export async function insertUserWithOAuthDb(
     createdAt: number;
   },
 ): Promise<UserRecord> {
+  // better-sqlite3: callback must be sync and not return a Promise; builders only
+  // run when .run() is called (await does not work inside sync tx).
   db.transaction((tx) => {
-    tx.insert(users).values({
-      id: params.userId,
-      email: params.email,
-      nome: params.nome,
-      telefone: null,
-      avatarUrl: params.avatarUrl,
-      tipoUsuario: null,
-      platformRole: 'none',
-      createdAt: params.createdAt,
-    });
-    tx.insert(oauthIdentities).values({
-      id: params.oauthIdentityId,
-      provider: params.provider,
-      providerUserId: params.providerUserId,
-      userId: params.userId,
-      createdAt: params.createdAt,
-    });
+    tx
+      .insert(users)
+      .values({
+        id: params.userId,
+        email: params.email,
+        nome: params.nome,
+        telefone: null,
+        avatarUrl: params.avatarUrl,
+        tipoUsuario: null,
+        platformRole: 'none',
+        createdAt: params.createdAt,
+      })
+      .run();
+    tx
+      .insert(oauthIdentities)
+      .values({
+        id: params.oauthIdentityId,
+        provider: params.provider,
+        providerUserId: params.providerUserId,
+        userId: params.userId,
+        createdAt: params.createdAt,
+      })
+      .run();
   });
   const rows = await db.select().from(users).where(eq(users.id, params.userId)).limit(1);
   const row = rows[0];
