@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "node:path";
 
 /**
  * Keep bundler project root as apps/web (default cwd) so `@tanstack/react-query`
@@ -7,6 +8,9 @@ import type { NextConfig } from "next";
  */
 
 const nextConfig: NextConfig = {
+  output: "standalone",
+  /** Trace workspace packages into `.next/standalone` for Docker (`next build` cwd = apps/web) */
+  outputFileTracingRoot: path.resolve(process.cwd(), "../.."),
   /**
    * Em dev, `http://localhost:3000` e `http://127.0.0.1:3000` são origens diferentes.
    * Sem isto, o Next bloqueia `/_next/*` (RSC, chunks, HMR) para `127.0.0.1` e o client fica partido.

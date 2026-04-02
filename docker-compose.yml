@@ -1,0 +1,87 @@
+# Produção: Web (/) + API (/api) no mesmo host via Traefik.
+# Pré-requisitos: rede externa `traefik-public` (mesmo nome que o Traefik usa).
+#   docker network create traefik-public
+# Copie `.env.docker.example` → `.env` e preencha DOMAIN, segredos e certresolver.
+
+name: lilo-hub
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      PORT: "4000"
+      DATABASE_URL: file:/app/data/app.db
+      SWAGGER_ENABLED: "false"
+      CORS_ORIGINS: "https://${DOMAIN}"
+      WEB_APP_URL: "https://${DOMAIN}"
+      GOOGLE_CALLBACK_URL: "https://${DOMAIN}/api/auth/google/callback"
+    volumes:
+      - api_data:/app/data
+    networks:
+      - traefik-public
+      - internal
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+      - traefik.http.routers.lilo-api-secure.rule=Host(`${DOMAIN}`) && PathPrefix(`/api`)
+      - traefik.http.routers.lilo-api-secure.entrypoints=websecure
+      - traefik.http.routers.lilo-api-secure.tls=true
+      - traefik.http.routers.lilo-api-secure.tls.certresolver=${TRAEFIK_CERT_RESOLVER}
+      - traefik.http.routers.lilo-api-secure.priority=100
+      - traefik.http.routers.lilo-api-secure.service=lilo-api
+      - traefik.http.services.lilo-api.loadbalancer.server.port=4000
+      - traefik.http.routers.lilo-api-http.rule=Host(`${DOMAIN}`) && PathPrefix(`/api`)
+      - traefik.http.routers.lilo-api-http.entrypoints=web
+      - traefik.http.routers.lilo-api-http.middlewares=lilo-gotls@docker
+      - traefik.http.routers.lilo-api-http.priority=100
+      - traefik.http.routers.lilo-api-http.service=lilo-api
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: https://${DOMAIN}/api
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      API_INTERNAL_URL: http://api:4000/api
+      NEXT_PUBLIC_API_URL: https://${DOMAIN}/api
+    depends_on:
+      - api
+    networks:
+      - traefik-public
+      - internal
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+      - traefik.http.middlewares.lilo-gotls.redirectscheme.scheme=https
+      - traefik.http.middlewares.lilo-gotls.redirectscheme.permanent=true
+      - traefik.http.routers.lilo-web-secure.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.lilo-web-secure.entrypoints=websecure
+      - traefik.http.routers.lilo-web-secure.tls=true
+      - traefik.http.routers.lilo-web-secure.tls.certresolver=${TRAEFIK_CERT_RESOLVER}
+      - traefik.http.routers.lilo-web-secure.priority=10
+      - traefik.http.routers.lilo-web-secure.service=lilo-web
+      - traefik.http.services.lilo-web.loadbalancer.server.port=3000
+      - traefik.http.routers.lilo-web-http.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.lilo-web-http.entrypoints=web
+      - traefik.http.routers.lilo-web-http.middlewares=lilo-gotls@docker
+      - traefik.http.routers.lilo-web-http.priority=10
+      - traefik.http.routers.lilo-web-http.service=lilo-web
+
+volumes:
+  api_data:
+
+networks:
+  traefik-public:
+    external: true
+  internal:
+    driver: bridge

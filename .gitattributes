@@ -1,0 +1,2 @@
+# Shell scripts used in Docker must use LF
+apps/api/entrypoint.sh text eol=lf

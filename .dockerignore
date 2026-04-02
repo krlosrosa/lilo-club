@@ -1,0 +1,27 @@
+**/node_modules
+**/.next
+**/dist
+.git
+.gitignore
+.cursor
+**/*.md
+!README.md
+
+# Environment and local data
+.env
+.env.*
+!.env.example
+apps/api/data
+**/.turbo
+coverage
+**/*.tsbuildinfo
+
+# Tooling / IDE
+.idea
+.vscode
+*.log
+
+# Tests
+**/test
+**/__tests__
+**/*.spec.ts
