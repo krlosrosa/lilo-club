@@ -1,7 +1,10 @@
 # Produção: Web (/) + API (/api) no mesmo host via Traefik.
 # Pré-requisitos: rede externa `traefik-public` (mesmo nome que o Traefik usa).
 #   docker network create traefik-public
-# Copie `.env.docker.example` → `.env` e preencha DOMAIN, segredos e certresolver.
+#
+# Portainer: não use `env_file` (o stack path não tem `.env` por padrão). Preencha as
+# variáveis em "Environment variables" ao criar/editar a stack (veja `.env.docker.example`).
+# CLI local: `docker compose --env-file .env up -d` ou exporte as mesmas variáveis.
 
 name: lilo-hub
 
@@ -11,7 +14,6 @@ services:
       context: .
       dockerfile: apps/api/Dockerfile
     restart: unless-stopped
-    env_file: .env
     environment:
       NODE_ENV: production
       PORT: "4000"
@@ -20,6 +22,17 @@ services:
       CORS_ORIGINS: "https://${DOMAIN}"
       WEB_APP_URL: "https://${DOMAIN}"
       GOOGLE_CALLBACK_URL: "https://${DOMAIN}/api/auth/google/callback"
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-1h}
+      JWT_COOKIE_NAME: ${JWT_COOKIE_NAME:-access_token}
+      JWT_COOKIE_MAX_AGE_MS: ${JWT_COOKIE_MAX_AGE_MS:-3600000}
+      R2_ACCOUNT_ID: ${R2_ACCOUNT_ID}
+      R2_ACCESS_KEY_ID: ${R2_ACCESS_KEY_ID}
+      R2_SECRET_ACCESS_KEY: ${R2_SECRET_ACCESS_KEY}
+      R2_BUCKET: ${R2_BUCKET}
+      R2_PUBLIC_BASE_URL: ${R2_PUBLIC_BASE_URL:-}
     volumes:
       - api_data:/app/data
     networks:
@@ -48,7 +61,6 @@ services:
       args:
         NEXT_PUBLIC_API_URL: https://${DOMAIN}/api
     restart: unless-stopped
-    env_file: .env
     environment:
       NODE_ENV: production
       PORT: "3000"
