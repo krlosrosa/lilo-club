@@ -1,0 +1,24 @@
+---
+alwaysApply: true
+---
+---
+description: "Rules for Drizzle ORM, Repositories and database interactions"
+alwaysApply: false
+---
+
+# Data Layer & Drizzle Standards
+
+## Step 1: Repository Interface
+- Define in `src/domain/repositories/[domain].repository.ts`.
+- Export a unique string token: `export const DOMINIO_REPOSITORY = 'IDominioRepository';`.
+- Include all necessary types (Input, Record, Filter) in this file.
+
+## Step 2: Drizzle Functions
+- File: `src/infra/db/[domain]/[action]-[domain].drizzle.ts`.
+- Pattern: `export async function actionDomainDb(db: DrizzleClient, data: Input): Promise<Record>`.
+- Imports: Tables must come from `../providers/drizzle/config/migrations`.
+
+## Step 3: Service Implementation
+- Implement the repository interface in `src/infra/db/[domain]/[domain].service.ts`.
+- Inject Drizzle using `@Inject(DRIZZLE_PROVIDER)`.
+- Only delegate to drizzle functions; do not write SQL logic inside the Service class.

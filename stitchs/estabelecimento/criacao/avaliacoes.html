@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Avaliações - A Curadoria Digital</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed": "#ffdbc7",
+              "surface-bright": "#f7f9fc",
+              "surface-variant": "#e0e3e6",
+              "error": "#ba1a1a",
+              "on-primary-fixed": "#001c3a",
+              "primary": "#005dac",
+              "on-tertiary-container": "#fffeff",
+              "on-primary": "#ffffff",
+              "on-primary-fixed-variant": "#004786",
+              "surface-container-highest": "#e0e3e6",
+              "surface-tint": "#005faf",
+              "surface-container-low": "#f2f4f7",
+              "on-primary-container": "#fffdff",
+              "error-container": "#ffdad6",
+              "tertiary": "#944700",
+              "inverse-primary": "#a5c8ff",
+              "surface-dim": "#d8dadd",
+              "outline-variant": "#c1c6d4",
+              "on-error": "#ffffff",
+              "secondary-fixed-dim": "#ebb2ff",
+              "secondary-container": "#d97dff",
+              "on-secondary-fixed-variant": "#721199",
+              "primary-fixed-dim": "#a5c8ff",
+              "surface-container": "#eceef1",
+              "on-secondary-container": "#600084",
+              "on-error-container": "#93000a",
+              "primary-fixed": "#d4e3ff",
+              "tertiary-fixed-dim": "#ffb688",
+              "background": "#f7f9fc",
+              "inverse-on-surface": "#eff1f4",
+              "secondary-fixed": "#f8d8ff",
+              "on-secondary-fixed": "#320047",
+              "on-secondary": "#ffffff",
+              "on-surface-variant": "#414752",
+              "on-tertiary": "#ffffff",
+              "surface-container-high": "#e6e8eb",
+              "on-background": "#191c1e",
+              "inverse-surface": "#2d3133",
+              "secondary": "#8c33b3",
+              "outline": "#717783",
+              "on-surface": "#191c1e",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-container": "#ba5b00",
+              "primary-container": "#1976d2",
+              "on-tertiary-fixed": "#311300",
+              "surface": "#f7f9fc",
+              "on-tertiary-fixed-variant": "#733600"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "1rem", "xl": "1.25rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<main class="max-w-7xl mx-auto px-4 md:px-8 py-8 min-h-screen">
+<!-- Content Header & Summary Bento -->
+<section class="mb-10">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
+<div>
+<h2 class="text-4xl font-extrabold tracking-tight text-on-surface font-headline mb-2">Avaliações</h2>
+<p class="text-on-surface-variant text-lg font-body">Gerencie o feedback dos seus clientes e a reputação do seu negócio.</p>
+</div>
+<div class="flex items-center gap-4 bg-surface-container-low p-2 rounded-xl">
+<button class="px-4 py-2 rounded-lg bg-surface-container-lowest text-primary shadow-sm font-semibold text-sm">Visão Geral</button>
+<button class="px-4 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors font-semibold text-sm">Relatórios</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+<div class="md:col-span-1 bg-primary text-on-primary p-6 rounded-xl shadow-sm flex flex-col justify-between">
+<span class="text-sm font-semibold uppercase tracking-wider opacity-80">Nota Média</span>
+<div>
+<div class="text-5xl font-extrabold font-headline leading-none">4.8</div>
+<div class="flex mt-2 text-tertiary-fixed">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star_half</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm flex flex-col justify-center">
+<span class="text-on-surface-variant text-sm font-medium mb-1">Total de Avaliações</span>
+<div class="text-3xl font-bold font-headline">1,248</div>
+<span class="text-primary text-xs font-bold mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span> +12% este mês
+                </span>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm flex flex-col justify-center border-l-4 border-secondary">
+<span class="text-on-surface-variant text-sm font-medium mb-1">Taxa de Resposta</span>
+<div class="text-3xl font-bold font-headline">94%</div>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full mt-4">
+<div class="bg-secondary h-full rounded-full w-[94%]"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm flex flex-col justify-center">
+<span class="text-on-surface-variant text-sm font-medium mb-1">Novas Hoje</span>
+<div class="text-3xl font-bold font-headline">14</div>
+<div class="flex -space-x-2 mt-3">
+<img alt="Avatar" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR4EWqZrOnPJOHYQadkzG_tMd28nqSjoTV0eZmycMKtAyy86AP48PZ1ao7ELbBQZngMIEWrJHrr5FRrJPl_TKvQ0HpvO64-fS_lz7VM_XzOEpacp19jBMXFnq6JfhXNXBzRT5bpyK3G72mh-TUA158QC4pTNrlH04RvprCuEKVKA0BhYK_GlIq0CqZAzVjwqRA2qjReTpHFBROd1ymoRnR4lzklN_Jtm0mxvT6AQQN6bfIkvq7hIqpJUxQnNt5xiYWbsOS69IvRZYd"/>
+<img alt="Avatar" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIdcdZv4MrGPbuwJQzRSPAANVUVnH6Pf1yefX_-h4y-Fj7wPAkDLcgpMZ4Y2NA95Q2kBwx--wMsHRtbLbUc4EJNRC4Bc8E6hz_TvK7K5JEYU2sBfe7IELYWg-9OhYs4AXeYWXjORGEMX_rzwgUVlzAesBmEUINQYNuxZyWwb0WYNmvokKkxHdD_UXoDPnad50pr6khaAyfLWln-dbveGZrrSp8s_-xf07PxdHyiIEZhJDXdNIksJPOcNBK4QmzzdFDKQT_jJDoBmMa"/>
+<div class="w-8 h-8 rounded-full bg-primary-fixed text-on-primary-fixed flex items-center justify-center text-[10px] font-bold border-2 border-surface-container-lowest">+11</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Filters Section -->
+<section class="bg-surface-container-low rounded-2xl p-6 mb-8 flex flex-wrap items-center justify-between gap-4">
+<div class="flex flex-wrap items-center gap-4">
+<div class="relative">
+<select class="appearance-none bg-surface-container-lowest border-none rounded-xl px-5 py-3 pr-10 text-sm font-semibold focus:ring-2 focus:ring-primary/20 text-on-surface-variant">
+<option>Todas as Notas</option>
+<option>5 Estrelas</option>
+<option>4 Estrelas</option>
+<option>3 Estrelas</option>
+<option>Críticas (1-2)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">expand_more</span>
+</div>
+<div class="relative">
+<select class="appearance-none bg-surface-container-lowest border-none rounded-xl px-5 py-3 pr-10 text-sm font-semibold focus:ring-2 focus:ring-primary/20 text-on-surface-variant">
+<option>Mais recentes</option>
+<option>Mais antigas</option>
+<option>Mais relevantes</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">calendar_today</span>
+</div>
+<div class="h-8 w-px bg-outline-variant/30 hidden md:block mx-2"></div>
+<div class="flex gap-2">
+<button class="bg-surface-container-highest px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-on-surface-variant hover:bg-surface-variant transition-colors">Sem Resposta</button>
+<button class="bg-surface-container-highest px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-on-surface-variant hover:bg-surface-variant transition-colors">Com Mídia</button>
+</div>
+</div>
+<div class="relative w-full md:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full bg-surface-container-lowest border-none rounded-xl pl-10 pr-4 py-3 text-sm focus:ring-2 focus:ring-primary/20" placeholder="Buscar comentário..." type="text"/>
+</div>
+</section>
+<!-- Reviews List -->
+<div class="space-y-6">
+<!-- Review Card 1 (Highlight - High Score) -->
+<article class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-primary/10 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4">
+<span class="bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">Destaque Positivo</span>
+</div>
+<div class="flex flex-col md:flex-row gap-8">
+<div class="flex flex-col items-center md:items-start text-center md:text-left shrink-0">
+<div class="w-16 h-16 rounded-2xl bg-slate-100 overflow-hidden mb-3">
+<img alt="Beatriz Cavalcante" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIu9K1e5ebom3kCd3R6eFns6ckdzcOXfksBxGs7ATc7q3XiRMD76KN1Tgfsh04VVunZMJ6QQ2xplXpHWDXL2Htlwm2Z1r4QKW7zz_AX4Wu_yp0o283sihbQGL9dK8YJ8u-4nQdbH_Hh1tdz9PjfQZCwmFazZYftWI6lIFVQszNpjoTlFMP-87Plvx1FoNlyOlEt2J3i5M-ErVvwnRjPBNNEziWJGeGLVH6EC3MOBF_yqST8UBZPYB5Q0GD9Nx9bj2vG2pUEPc-BnUA"/>
+</div>
+<h3 class="font-bold font-headline text-on-surface">Beatriz Cavalcante</h3>
+<p class="text-xs text-on-surface-variant font-medium">Guia Local • Nível 4</p>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-4">
+<div class="flex text-primary">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<time class="text-sm text-on-surface-variant font-medium">12 de Out, 2023</time>
+</div>
+<p class="text-on-surface leading-relaxed text-lg mb-6 font-body">
+                        Experiência impecável do início ao fim. A curadoria dos produtos é visivelmente feita com muito carinho e critério. O atendimento foi o diferencial, me senti muito bem acolhida. Com certeza voltarei mais vezes com amigos!
+                    </p>
+<div class="flex items-center justify-between">
+<div class="flex gap-4">
+<button class="flex items-center gap-2 text-xs font-bold text-primary hover:underline">
+<span class="material-symbols-outlined text-sm">reply</span> RESPONDER
+                            </button>
+<button class="flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-slate-600">
+<span class="material-symbols-outlined text-sm">thumb_up</span> ÚTIL (14)
+                            </button>
+</div>
+<button class="text-slate-300 hover:text-error transition-colors">
+<span class="material-symbols-outlined">flag</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Review Card 2 -->
+<article class="bg-surface-container-lowest p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex flex-col md:flex-row gap-8">
+<div class="flex flex-col items-center md:items-start text-center md:text-left shrink-0">
+<div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mb-3">
+<span class="text-xl font-bold text-slate-400 font-headline">RL</span>
+</div>
+<h3 class="font-bold font-headline text-on-surface">Ricardo Lemos</h3>
+<p class="text-xs text-on-surface-variant font-medium">Cliente Verificado</p>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-4">
+<div class="flex text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined">star</span>
+</div>
+<time class="text-sm text-on-surface-variant font-medium">08 de Out, 2023</time>
+</div>
+<p class="text-on-surface-variant leading-relaxed mb-6 font-body">
+                        Gostei bastante da variedade, mas achei que o tempo de espera no checkout poderia ser um pouco menor em horários de pico. Tirando isso, tudo ótimo.
+                    </p>
+<div class="bg-surface-container-low p-4 rounded-lg mb-6 border-l-2 border-primary">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs font-bold text-primary uppercase tracking-tighter">Sua Resposta</span>
+<button class="text-[10px] text-slate-400 font-bold hover:text-primary">EDITAR</button>
+</div>
+<p class="text-sm text-on-surface-variant italic">"Olá Ricardo, agradecemos o feedback! Estamos revisando nossos processos de caixa para melhorar sua próxima experiência."</p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex gap-4">
+<button class="flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-slate-600">
+<span class="material-symbols-outlined text-sm">thumb_up</span> ÚTIL (2)
+                            </button>
+</div>
+<button class="text-slate-300 hover:text-error transition-colors">
+<span class="material-symbols-outlined">flag</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Review Card 3 -->
+<article class="bg-surface-container-lowest p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex flex-col md:flex-row gap-8">
+<div class="flex flex-col items-center md:items-start text-center md:text-left shrink-0">
+<div class="w-16 h-16 rounded-2xl bg-slate-100 overflow-hidden mb-3">
+<img alt="Marcos Silva" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBirC839tHBZKFKno-U0GZG1GPUjfrAWxwGZXiJ8XvATFR-VcgaPhJig3j_dDaeye_WoubK5tsgnS9h8tD4iwnERpNExFCR43nhHs2qHfsQ3ji_g7fP40PuCvLHkMOIcXsA_v3_qu7oSuBwEZY-BvjjJ581Pl8vwPg1A_gLqWwA8PZNoCFL4zewBnquJB88vOMHsiZlWeDzb3sFMkZ2NEMqzvydi4AXk2k6bIYnPB-vXO3BMTrtyPqtJiYIyulwOm4uzyLjrqKi9npD"/>
+</div>
+<h3 class="font-bold font-headline text-on-surface">Marcos Silva</h3>
+<p class="text-xs text-on-surface-variant font-medium">Cliente Novo</p>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-4">
+<div class="flex text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<time class="text-sm text-on-surface-variant font-medium">05 de Out, 2023</time>
+</div>
+<p class="text-on-surface-variant leading-relaxed mb-6 font-body">
+                        Sensacional! O ambiente é muito agradável e a seleção musical estava no ponto certo. Recomendo fortemente o café especial da casa.
+                    </p>
+<div class="flex items-center justify-between">
+<div class="flex gap-4">
+<button class="flex items-center gap-2 text-xs font-bold text-primary hover:underline">
+<span class="material-symbols-outlined text-sm">reply</span> RESPONDER
+                            </button>
+<button class="flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-slate-600">
+<span class="material-symbols-outlined text-sm">thumb_up</span> ÚTIL (0)
+                            </button>
+</div>
+<button class="text-slate-300 hover:text-error transition-colors">
+<span class="material-symbols-outlined">flag</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Pagination -->
+<footer class="mt-12 flex items-center justify-between bg-surface-container-low p-4 rounded-xl">
+<div class="text-sm text-on-surface-variant font-medium">
+            Mostrando <span class="font-bold">1-10</span> de <span class="font-bold">1,248</span> avaliações
+        </div>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 rounded-lg flex items-center justify-center text-slate-400 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center bg-primary text-on-primary font-bold text-sm shadow-sm">1</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors font-semibold text-sm">2</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors font-semibold text-sm">3</button>
+<span class="text-slate-400 px-2">...</span>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors font-semibold text-sm">125</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center text-slate-400 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</footer>
+</main>
+</body></html>

@@ -1,0 +1,13 @@
+---
+description: "This rule provides standards for styling, Tailwind CSS utility usage, and Accessibility"
+alwaysApply: false
+---
+
+# Styling & Design System
+
+- **Theme Tokens:** Strict prohibition of arbitrary values (e.g., `w-[312px]`). Use standard Tailwind scale from @tailwind.config.js.
+- **Mobile-First:** Write base classes for mobile and use prefixes (`md:`, `lg:`) for larger screens.
+- **Consistency:** Ensure colors and spacing match the shadcn/ui theme defined in global CSS.
+- **A11y:** - Images must have descriptive `alt` tags. 
+    - Icon-only buttons/links must have `aria-label`.
+    - Maintain proper heading hierarchy (h1 -> h2 -> h3).

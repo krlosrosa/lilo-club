@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-fixed": "#d4e3ff",
+                        "on-primary-container": "#fffdff",
+                        "primary-fixed-dim": "#a5c8ff",
+                        "tertiary-fixed-dim": "#ffb688",
+                        "secondary-fixed-dim": "#ebb2ff",
+                        "surface-container-high": "#e6e8eb",
+                        "on-primary-fixed": "#001c3a",
+                        "on-primary-fixed-variant": "#004786",
+                        "inverse-primary": "#a5c8ff",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#ba5b00",
+                        "surface-bright": "#f7f9fc",
+                        "outline-variant": "#c1c6d4",
+                        "surface": "#f7f9fc",
+                        "tertiary": "#944700",
+                        "on-surface-variant": "#414752",
+                        "secondary": "#8c33b3",
+                        "secondary-fixed": "#f8d8ff",
+                        "primary": "#005dac",
+                        "secondary-container": "#d97dff",
+                        "on-secondary-container": "#600084",
+                        "on-tertiary-fixed": "#311300",
+                        "on-tertiary-container": "#fffeff",
+                        "tertiary-fixed": "#ffdbc7",
+                        "on-tertiary-fixed-variant": "#733600",
+                        "on-surface": "#191c1e",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eceef1",
+                        "inverse-on-surface": "#eff1f4",
+                        "surface-container-low": "#f2f4f7",
+                        "surface-container-highest": "#e0e3e6",
+                        "inverse-surface": "#2d3133",
+                        "primary-container": "#1976d2",
+                        "surface-dim": "#d8dadd",
+                        "outline": "#717783",
+                        "on-secondary-fixed": "#320047",
+                        "on-background": "#191c1e",
+                        "surface-tint": "#005faf",
+                        "surface-variant": "#e0e3e6",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#721199",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "background": "#f7f9fc"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f7f9fc;
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- Main Content Area centered -->
+<main class="flex-1 flex flex-col items-center justify-center">
+<!-- Page Canvas: Empty State Listagem de Estabelecimentos -->
+<section class="flex-1 flex items-center justify-center p-8 w-full">
+<div class="max-w-2xl w-full text-center">
+<!-- Visual Anchor -->
+<div class="relative mb-12 flex justify-center">
+<div class="absolute inset-0 blur-3xl opacity-20 bg-primary-fixed rounded-full transform -translate-y-8"></div>
+<div class="relative w-72 h-72 rounded-3xl overflow-hidden shadow-2xl rotate-3 border-8 border-surface-container-lowest">
+<img class="w-full h-full object-cover grayscale contrast-125" data-alt="Minimalist luxury storefront with clean architectural lines and soft morning sunlight casting elegant shadows on white walls" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_gJSnLqjAOhPib_S5DKingEYp52ZBLFKxuO-iEIPZG99KQqXCMvrDd40WoZW8vXHSsnKx3vKTp0zr-4IcfjCfWil_0GxX5EJThwfX5CzSV4cUK3fFZhVDYTLFuuOn3Hg3R3wXA9wyEBueGH3LunXazLoah13bbRYems-m3CUNBVfIlVXPq6Mai_pyEEO3jlsZXmyHGMWE_zP_-kydsDp0RyOczSjtUQUp5e-45WONJdnOT7Ld_iWTZEHlxYQ8z4LcUlO6qCSPKKUs"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent flex items-end p-6">
+<span class="text-white font-headline font-bold text-lg">Sua Próxima Unidade</span>
+</div>
+</div>
+<div class="absolute -bottom-6 -right-6 w-48 h-48 rounded-2xl overflow-hidden shadow-xl -rotate-6 border-4 border-surface-container-lowest">
+<img class="w-full h-full object-cover" data-alt="A clean, modern workspace with a minimalist design aesthetic featuring white surfaces and premium textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAreJ_sp5HNhI0xm1HRCBSTFzFG_vEVJ6E-TKUmUAckAve8gqnMArDv9eA76OWg-fs6I3zGxZdvppRKmL8aT6kQG19fKmSjQArZYCiT0GhUTo3yk1frxndfBrOsoA9rtS_nMTMfPWkFc2ODBAbP7XVsS0a0-A2wDLvyVGrZRu6CH8Qg30RvKYpJN_lmikxKcf0m0pErDmC1tpAErMELhzp1NV6dHkk43pAxmgiqysv4xcq4L9ojQWZfx9_gp0uzhQ_Cp77z2I8fElI"/>
+</div>
+</div>
+<!-- Textual Hierarchy -->
+<div class="space-y-4 mb-10">
+<h2 class="font-headline text-4xl font-bold tracking-tight text-on-surface">
+                    Você ainda não possui lojas cadastradas
+                </h2>
+<p class="font-body text-on-surface-variant text-lg max-w-md mx-auto leading-relaxed">
+                    Comece a organizar seu ecossistema comercial agora. Adicione seu primeiro estabelecimento para desbloquear relatórios detalhados e ferramentas de gestão.
+                </p>
+</div>
+<!-- Call to Action -->
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<button class="px-8 py-4 bg-primary text-on-primary rounded-full font-headline font-bold text-lg flex items-center gap-3 shadow-lg hover:shadow-primary/20 hover:scale-105 active:scale-95 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="add_business">add_business</span>
+                    + Criar Minha Primeira Loja
+                </button>
+<button class="px-8 py-4 bg-surface-container-high text-on-surface-variant rounded-full font-body font-semibold hover:bg-surface-container-highest transition-colors">
+                    Ver Guia de Configuração
+                </button>
+</div>
+<!-- Contextual Hint -->
+<div class="mt-16 pt-12 border-t border-slate-200 dark:border-slate-800 grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="flex flex-col items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed flex items-center justify-center text-on-primary-fixed-variant">
+<span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
+</div>
+<h4 class="font-headline font-bold text-sm">Configuração Rápida</h4>
+<p class="text-xs text-on-surface-variant px-4">Leve menos de 5 minutos para registrar seu negócio.</p>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed-variant">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+</div>
+<h4 class="font-headline font-bold text-sm">Dados em Tempo Real</h4>
+<p class="text-xs text-on-surface-variant px-4">Monitore vendas e fluxo de clientes instantaneamente.</p>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+</div>
+<h4 class="font-headline font-bold text-sm">Gestão Segura</h4>
+<p class="text-xs text-on-surface-variant px-4">Seus dados protegidos com criptografia de ponta.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer Separation -->
+<footer class="w-full p-8 text-center border-t border-slate-100 dark:border-slate-900 bg-surface-container-low/30">
+<p class="text-xs font-label text-slate-400">© 2024 A Curadoria Digital - Todos os direitos reservados para o portal Gestão Pró.</p>
+</footer>
+</main>
+</body></html>

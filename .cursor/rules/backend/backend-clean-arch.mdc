@@ -1,0 +1,27 @@
+---
+alwaysApply: true
+---
+---
+description: "Rules for Backend Clean Architecture (NestJS, Drizzle, Zod). Use when creating any backend file."
+alwaysApply: false
+---
+
+# Backend Clean Architecture Standards
+
+## Directory Structure & Mapping
+- **Domain Layer:** `src/domain/model/` (Zod schemas) and `src/domain/repositories/` (Interfaces + DI Tokens).
+- **Application Layer:** `src/application/usecases/[domain]/` (Flat list, no subfolders) and `src/application/dtos/` (Query/Response DTOs).
+- **Presentation Layer:** `src/presentation/controllers/[domain]/` (1 Controller = 1 Action).
+- **Infra Layer:** `src/infra/db/[domain]/` (Drizzle functions + Services) and `src/infra/modules/`.
+
+## The "Never" Rules (Common Divergences)
+- ❌ NEVER create `command/` or `query/` subfolders in usecases.
+- ❌ NEVER use string literals in `@Inject()`. Always use imported constants (e.g., `DOMINIO_REPOSITORY`).
+- ❌ NEVER put Body DTOs in separate files. They MUST be **inline** in the controller.
+- ❌ NEVER use default exports. Use named exports.
+- ❌ NEVER forget `.js` extension in controller imports (ESM requirement).
+
+## Database Standards
+- Drizzle functions MUST be pure and exported from `[action]-[domain].drizzle.ts`.
+- They must receive `db: DrizzleClient` as the first argument.
+- Use the token `DRIZZLE_PROVIDER` (typo "constat" is intentional, keep it).

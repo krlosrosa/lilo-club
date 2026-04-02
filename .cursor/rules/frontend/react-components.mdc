@@ -1,0 +1,16 @@
+---
+description: "This rule provides standards for frontend components and shadcn/ui integration"
+alwaysApply: false
+---
+
+# Components & Architecture
+
+- **UI Library:** Always prioritize using **shadcn/ui** components. Check `src/components/ui/` before creating custom elements.
+- **Features:** Domain UI and data live in `src/features/<domain>/` with thin route files in `src/app/`. Use `components/[Name]/` only for app-wide or design-system-level pieces outside a single domain.
+- **Complexity:** If a component exceeds 150 lines, extract sub-components within the same directory.
+- **Typing:** Use `interface` for Props. Always export: `export interface [Name]Props`.
+- **Server First:** Use Server Components by default. Add `'use client'` ONLY for hooks (useState, useEffect) or event listeners.
+
+## Canonical References
+- shadcn/ui integration: See @src/components/ui/
+- Folder structure: See @src/components/Button/index.tsx

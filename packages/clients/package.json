@@ -1,0 +1,36 @@
+{
+  "name": "@lilo-hub/clients",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src",
+    "test": "node -e \"console.log('no tests')\""
+  },
+  "dependencies": {
+    "@lilo-hub/contracts": "workspace:*",
+    "zod": "^3.24.1"
+  },
+  "peerDependencies": {
+    "react": "^18.3.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@lilo-hub/eslint-config": "workspace:*",
+    "@types/react": "^18.3.18",
+    "eslint": "^9.17.0",
+    "react": "^18.3.1",
+    "typescript": "^5.7.2"
+  }
+}

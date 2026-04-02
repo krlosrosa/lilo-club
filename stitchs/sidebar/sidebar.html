@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>A Curadoria Digital - Dashboard de Gestão</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed": "#d4e3ff",
+              "outline": "#717783",
+              "surface-tint": "#005faf",
+              "on-error-container": "#93000a",
+              "on-primary": "#ffffff",
+              "error-container": "#ffdad6",
+              "secondary-container": "#d97dff",
+              "on-tertiary-fixed": "#311300",
+              "primary-container": "#1976d2",
+              "surface-bright": "#f7f9fc",
+              "surface": "#f7f9fc",
+              "on-primary-fixed": "#001c3a",
+              "secondary-fixed": "#f8d8ff",
+              "on-tertiary-container": "#fffeff",
+              "tertiary-fixed": "#ffdbc7",
+              "on-secondary-container": "#600084",
+              "on-primary-fixed-variant": "#004786",
+              "on-tertiary-fixed-variant": "#733600",
+              "secondary": "#8c33b3",
+              "on-error": "#ffffff",
+              "surface-container": "#eceef1",
+              "inverse-primary": "#a5c8ff",
+              "primary-fixed-dim": "#a5c8ff",
+              "on-secondary": "#ffffff",
+              "outline-variant": "#c1c6d4",
+              "tertiary": "#944700",
+              "secondary-fixed-dim": "#ebb2ff",
+              "primary": "#005dac",
+              "on-secondary-fixed": "#320047",
+              "on-surface-variant": "#414752",
+              "surface-container-high": "#e6e8eb",
+              "on-primary-container": "#fffdff",
+              "background": "#f7f9fc",
+              "surface-dim": "#d8dadd",
+              "on-tertiary": "#ffffff",
+              "inverse-on-surface": "#eff1f4",
+              "surface-container-highest": "#e0e3e6",
+              "on-surface": "#191c1e",
+              "on-secondary-fixed-variant": "#721199",
+              "surface-variant": "#e0e3e6",
+              "on-background": "#191c1e",
+              "error": "#ba1a1a",
+              "inverse-surface": "#2d3133",
+              "tertiary-fixed-dim": "#ffb688",
+              "tertiary-container": "#ba5b00",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-low": "#f2f4f7"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-shift { background-color: rgba(236, 238, 241, 0.5); }
+        .glass-card { backdrop-filter: blur(12px); }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-screen w-64 border-r border-transparent bg-slate-50 flex flex-col py-6 px-4 gap-2 z-50">
+<div class="mb-8 px-2">
+<h1 class="text-xl font-bold text-blue-700 tracking-tighter font-headline">A Curadoria</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 font-semibold mt-1">Gestão de Negócios</p>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<!-- Active: Dashboard -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-['Manrope'] text-sm font-semibold tracking-tight text-blue-700 border-r-4 border-blue-700 bg-blue-50/50 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-['Manrope'] text-sm font-semibold tracking-tight text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+                Estabelecimentos
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-['Manrope'] text-sm font-semibold tracking-tight text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="reviews">reviews</span>
+                Feedback
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-['Manrope'] text-sm font-semibold tracking-tight text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+                Minha Conta
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-['Manrope'] text-sm font-semibold tracking-tight text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+                Suporte
+            </a>
+</nav>
+<div class="mt-auto flex flex-col gap-1 border-t border-slate-200 pt-4">
+<button class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-['Manrope'] text-sm font-semibold tracking-tight text-slate-500 hover:bg-slate-200/50 transition-all">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+                Alternar Tema
+            </button>
+<button class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-['Manrope'] text-sm font-semibold tracking-tight text-slate-500 hover:bg-slate-200/50 transition-all">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                Sair
+            </button>
+</div>
+</aside>
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-white/80 backdrop-blur-md flex justify-between items-center px-8 border-b border-slate-100 z-40">
+<div class="flex items-center gap-4">
+<h2 class="text-lg font-bold text-slate-900 font-headline">A Curadoria Digital</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative flex items-center bg-surface-container rounded-full px-4 py-1.5 w-64">
+<span class="material-symbols-outlined text-outline text-sm" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full font-body placeholder:text-outline-variant" placeholder="Buscar dados..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 hover:text-blue-700 transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-slate-500 hover:text-blue-700 transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border-2 border-primary-fixed">
+<img alt="Foto de Perfil do Gestor" class="h-full w-full object-cover" data-alt="professional portrait of a business executive in a tailored suit with a confident smile against a minimalist studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAt6cWp1oS4S8AeIZKAHGUfI4XdLyZp2geheUae4X3NKACz98XALOJsLLdPH-9DYHKi6co8BW34g9-1qMjLlU4Sf-cba5uWvrc4omgCmgHcyvVyG7Yitlf4EmFaWT0YrFHp8uUAB4ikrRMsPi2h71Uf4MkaAwK-6fTOaXZnVGkZeoy8QVP9CmrK4aDAO9P_jSpxUAMEOJUsLUvWgAaUtqzvI_lz67l1JotiqsC25kCROmaZ_qX2r_JL-klI364wBJCiECzbbDMpKILj"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 px-8 pb-12 min-h-screen">
+<!-- Welcome Header -->
+<div class="mb-10">
+<h3 class="text-3xl font-bold font-headline text-on-surface tracking-tight">Bom dia, Ricardo.</h3>
+<p class="text-on-surface-variant font-body mt-1">Aqui está o que aconteceu com seus negócios nas últimas 24 horas.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Main Metric: Total Views -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-4">
+<span class="p-3 bg-primary-fixed text-primary rounded-xl">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</span>
+<span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="trending_up">trending_up</span>
+                            +12.5%
+                        </span>
+</div>
+<p class="text-sm font-medium text-outline font-label uppercase tracking-widest">Total de Visualizações</p>
+<h4 class="text-5xl font-extrabold font-headline mt-2 text-primary">124.802</h4>
+</div>
+<div class="mt-8 pt-6 border-t border-slate-50">
+<p class="text-xs text-on-surface-variant font-body">Meta mensal de visualizações atingida em <span class="font-bold">84%</span></p>
+<div class="w-full bg-surface-variant h-1.5 rounded-full mt-2">
+<div class="bg-primary h-1.5 rounded-full w-[84%]"></div>
+</div>
+</div>
+</div>
+<!-- Recent Reviews Feed -->
+<div class="col-span-12 lg:col-span-5 bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-slate-100">
+<div class="flex justify-between items-center mb-6">
+<h4 class="text-lg font-bold font-headline text-on-surface">Avaliações Recentes</h4>
+<button class="text-xs font-bold text-primary hover:underline">Ver todas</button>
+</div>
+<div class="space-y-6">
+<!-- Review 1 -->
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="portrait of a woman with a warm expression and stylish casual wear in a sunlit outdoor setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKPaY3uOtfaQ1jxuxogcYnxm5ZNNIdNGBBCmCS6GnGLH9dPVQF4-_NMId4-jcOG8OtUTXumFUB76AVlXrXuPsTxgLDK_IXQwIn51-_29M2WSSMiFu_AZSDu3bHIzdU5aKjK7D6rFYiWzU3kff9JvPjQq9HF_LvXwHsK8KU0WGkcjLwRqTM_2ewLclhQy4kBkcwgWWZFwkNf0QtN6ubpSbBJ042z7Gn8-yylmMRrNHI7CR6_BPXsz-d0_01FeiWGMdw_RoLMeTyZ7cm"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<span class="text-sm font-bold font-headline">Ana Paula S.</span>
+<span class="flex text-yellow-400">
+<span class="material-symbols-outlined text-xs" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xs" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xs" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xs" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xs" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</span>
+</div>
+<p class="text-xs text-on-surface-variant font-body line-clamp-2 mt-1 italic">"Experiência incrível no Villa Gourmet. O atendimento foi impecável e os pratos estavam divinos. Com certeza voltarei..."</p>
+<p class="text-[10px] text-outline mt-2">há 15 minutos • Villa Gourmet</p>
+</div>
+</div>
+<!-- Review 2 -->
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="close-up portrait of a man with short hair and a neat beard smiling gently against a soft neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnCxq4xR4bn0ERtFKWr2QAijz4jeihBpqNFPxhJ79vQfj1eU12wUDk90ur9I8T0kqr7K-g2CJQJWRAJyoWzLB2rNOj71rKzN_wVQ0KE8b4Ua2FNuI85-UAxWZmP5ksVHPTJb4hNBh8pEAfKp6j9ZOGY6zvKdJ2hsP-pVH0tiRleaYe2ExW1Pa60JkYEuIbVgL3vdE8O08L9grJD5xWjQyp5JgFh6lJFa0kpm3ZwhqD4PKPSwIymbxpNsRYKmYlstei3tlOR8-RjSyl"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<span class="text-sm font-bold font-headline">Marcos Lima</span>
+<span class="flex text-yellow-400">
+<span class="material-symbols-outlined text-xs" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xs" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xs" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xs" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xs" data-icon="star_outline">star_outline</span>
+</span>
+</div>
+<p class="text-xs text-on-surface-variant font-body line-clamp-2 mt-1 italic">"Gostei muito da Zenith Wellness, os equipamentos são novos. Apenas tive dificuldade com o vestiário que estava..."</p>
+<p class="text-[10px] text-outline mt-2">há 2 horas • Zenith Wellness</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Establishment Status Card -->
+<div class="col-span-12 lg:col-span-3 flex flex-col gap-6">
+<!-- Status List -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-slate-100 flex-1">
+<h4 class="text-sm font-bold font-headline text-on-surface mb-6">Status dos Negócios</h4>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-3 bg-surface-container-low rounded-lg">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 bg-green-500 rounded-full"></span>
+<span class="text-xs font-bold">Villa Gourmet</span>
+</div>
+<span class="text-[10px] font-bold uppercase text-green-700 bg-green-100 px-2 py-0.5 rounded">Aberto</span>
+</div>
+<div class="flex items-center justify-between p-3 bg-surface-container-low rounded-lg">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 bg-red-500 rounded-full"></span>
+<span class="text-xs font-bold">Zenith Wellness</span>
+</div>
+<span class="text-[10px] font-bold uppercase text-red-700 bg-red-100 px-2 py-0.5 rounded">Fechado</span>
+</div>
+</div>
+</div>
+<!-- CTA: New Establishment -->
+<button class="w-full bg-primary py-4 rounded-xl flex items-center justify-center gap-2 text-on-primary font-bold shadow-md hover:opacity-90 transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="add_business">add_business</span>
+<span class="font-headline tracking-tight">Novo Estabelecimento</span>
+</button>
+</div>
+<!-- Enterprise Plan / Upgrade Section -->
+<div class="col-span-12">
+<div class="relative overflow-hidden bg-gradient-to-r from-blue-700 to-indigo-800 rounded-2xl p-10 text-on-primary">
+<div class="absolute right-0 top-0 h-full w-1/3 opacity-10">
+<span class="material-symbols-outlined text-[200px]" data-icon="stars">stars</span>
+</div>
+<div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+<div>
+<span class="inline-block bg-white/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">Plano Enterprise</span>
+<h2 class="text-3xl font-extrabold font-headline leading-tight">Desbloqueie o poder total da sua Curadoria Digital</h2>
+<p class="text-white/80 font-body mt-4 text-lg">Acesso ilimitado a relatórios de BI, suporte prioritário 24/7 e gestão multinegócios avançada.</p>
+</div>
+<div class="flex md:justify-end gap-4">
+<button class="bg-white text-blue-800 px-8 py-3.5 rounded-full font-bold font-headline shadow-lg hover:bg-blue-50 transition-colors">
+                                Fazer Upgrade Agora
+                            </button>
+<button class="border border-white/30 text-white px-8 py-3.5 rounded-full font-bold font-headline hover:bg-white/10 transition-colors">
+                                Falar com Consultor
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Stats: Asymmetric Cards -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-low p-8 rounded-xl grid grid-cols-3 gap-8">
+<div>
+<p class="text-xs font-bold text-outline uppercase tracking-widest">Taxa de Conversão</p>
+<p class="text-3xl font-bold font-headline mt-2">4.2%</p>
+<p class="text-[10px] text-green-600 mt-1 font-bold">+0.8% em relação a ontem</p>
+</div>
+<div>
+<p class="text-xs font-bold text-outline uppercase tracking-widest">Tempo Médio Perm.</p>
+<p class="text-3xl font-bold font-headline mt-2">18min</p>
+<p class="text-[10px] text-red-600 mt-1 font-bold">-2min em relação a ontem</p>
+</div>
+<div>
+<p class="text-xs font-bold text-outline uppercase tracking-widest">Alcance Orgânico</p>
+<p class="text-3xl font-bold font-headline mt-2">68k</p>
+<p class="text-[10px] text-green-600 mt-1 font-bold">+5k em relação a ontem</p>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-4 bg-secondary-container p-8 rounded-xl flex items-center justify-between group cursor-pointer overflow-hidden relative">
+<div class="relative z-10">
+<h4 class="text-on-secondary-container text-xl font-extrabold font-headline">Campanhas Ativas</h4>
+<p class="text-on-secondary-container/80 text-sm mt-1">3 campanhas rodando agora</p>
+</div>
+<div class="w-12 h-12 bg-white/30 rounded-full flex items-center justify-center text-on-secondary-container group-hover:scale-110 transition-transform relative z-10">
+<span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
+</div>
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,24 @@
+---
+alwaysApply: true
+---
+---
+description: "Standards for testing Controllers, UseCases, and Drizzle functions"
+alwaysApply: false
+---
+
+# Backend Testing Standards
+
+## Test Locations
+- `test/presentation/[domain]/`: Controller tests (Mock UseCase only).
+- `test/application/[domain]/`: UseCase tests (Mock Repository via `Test.createTestingModule`).
+- `test/infra/[domain]/`: Drizzle tests (Mock `DrizzleClient` chain).
+
+## Testing Mocks
+- **Controllers:** Mock only the `execute` method of the UseCase.
+- **UseCases:** Use `provide: DOMINIO_REPOSITORY, useValue: mock` in `Testing.createTestingModule`.
+- **Drizzle:** Mock the chain: `insert().values().returning()`.
+
+## Core Principle
+- Do NOT test business logic in Controllers.
+- Do NOT test Framework/DB logic in UseCases.
+- Do NOT accept incomplete tests; always check for edge cases (empty results, errors).

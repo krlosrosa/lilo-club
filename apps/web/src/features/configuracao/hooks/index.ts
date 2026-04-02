@@ -1,0 +1,1 @@
+export { configuracaoApi } from "../api";

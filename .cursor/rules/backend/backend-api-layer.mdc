@@ -1,0 +1,22 @@
+---
+alwaysApply: true
+---
+---
+description: "Rules for NestJS Controllers, Swagger documentation, and Zod validation"
+alwaysApply: false
+---
+
+# API & Presentation Layer
+
+## Controller Pattern (One Action = One Controller)
+- **POST/PATCH/PUT:** Define Zod schema and `createZodDto` class **INLINE** before the controller class.
+- **GET (Query/Response):** Import DTOs from `src/application/dtos/[domain]/`.
+- **Decorators:** - Class: `@ApiTags`, `@Controller`, `@ApiErrorResponses()`, `@UseGuards(JwtAuthGuard)`.
+  - Method: `@ApiOperation({ summary, operationId })`, `@ApiResponse`.
+
+## Response Handling
+- Use `@ApiSuccessResponse(Dto, 'created')` or similar custom decorators when available.
+- For pagination, ensure the use of `z.coerce.number()` in the Query DTO.
+
+## ESM Compatibility
+- Always add `.js` to relative imports in controllers: `import { x } from './y.usecase.js';`.

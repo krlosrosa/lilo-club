@@ -1,0 +1,47 @@
+---
+alwaysApply: true
+---
+
+---
+description: Contexto global do projeto SaaS Guia Comercial, hierarquia de usuários e regras de módulos.
+globs: 
+---
+
+# Master Document Context (MDC) - Guia Comercial SaaS
+
+## 1. Visão Geral
+Este projeto é um **SaaS de Guia Comercial Multi-Tenancy** estruturado por cidades. A plataforma funciona como um ecossistema de serviços locais onde lojistas podem assinar módulos específicos para gerir seus negócios e atrair clientes.
+
+## 2. Hierarquia e Papéis (Acessibilidade)
+Ao desenvolver funções ou permissões, siga esta lógica de governança:
+
+* **Super Admin (Dono/Você):** Controle total do sistema, infraestrutura e módulos.
+* **Afiliado (Representante):** Responsável por uma cidade específica. Atua como o "dono local".
+* **Representação Padrão (Fallback):** Caso uma cidade não possua um afiliado ativo, o **Super Admin** assume automaticamente a responsabilidade e a gestão daquela praça.
+* **Lojista:** O usuário que contrata os módulos dentro do guia da cidade.
+
+## 3. Arquitetura de Módulos
+O sistema é modular. Cada funcionalidade abaixo deve ser tratada como um serviço independente que pode ser habilitado/desabilitado:
+
+* **Agendamento:** Gestão de horários e reservas.
+* **Cartão Fidelidade:** Sistema de pontos e recompensas.
+* **Mapa de Cupons:** Localização GPS de ofertas próximas ao usuário.
+* **Módulos Futuros:** A arquitetura deve permitir a acoplagem de novos serviços sem afetar o core do sistema.
+
+## 4. Regras de Desenvolvimento e Padrões
+Os agentes devem OBRIGATORIAMENTE consultar as regras específicas antes de gerar código:
+
+| Camada | Localização das Regras | Descrição |
+| :--- | :--- | :--- |
+| **Frontend** | `rules/frontend` | Padrões de UI, componentes e estado. |
+| **Backend** | `rules/backend` | Estrutura de API, segurança e banco de dados. |
+
+### Premissas de Código:
+* **Isolamento (Multi-tenancy):** Toda query ou ação deve garantir que os dados pertençam ao `tenant` (cidade/afiliado) correto.
+* **Modularidade:** O backend deve tratar os serviços como módulos opcionais (Feature Toggles).
+* **Responsividade:** O frontend deve ser prioritariamente *Mobile First*, dado o foco em guias comerciais de rua.
+
+## 5. Fluxo de Trabalho do Agente
+1.  Sempre valide se a nova funcionalidade respeita a hierarquia de Afiliados.
+2.  Consulte os arquivos em `rules/` para garantir consistência sintática.
+3.  Ao criar tabelas ou endpoints, inclua suporte para o "Dono" ser o responsável na ausência de um "Afiliado".

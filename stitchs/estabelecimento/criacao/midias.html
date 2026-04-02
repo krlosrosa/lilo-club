@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed": "#ffdbc7",
+              "surface-bright": "#f7f9fc",
+              "surface-variant": "#e0e3e6",
+              "error": "#ba1a1a",
+              "on-primary-fixed": "#001c3a",
+              "primary": "#005dac",
+              "on-tertiary-container": "#fffeff",
+              "on-primary": "#ffffff",
+              "on-primary-fixed-variant": "#004786",
+              "surface-container-highest": "#e0e3e6",
+              "surface-tint": "#005faf",
+              "surface-container-low": "#f2f4f7",
+              "on-primary-container": "#fffdff",
+              "error-container": "#ffdad6",
+              "tertiary": "#944700",
+              "inverse-primary": "#a5c8ff",
+              "surface-dim": "#d8dadd",
+              "outline-variant": "#c1c6d4",
+              "on-error": "#ffffff",
+              "secondary-fixed-dim": "#ebb2ff",
+              "secondary-container": "#d97dff",
+              "on-secondary-fixed-variant": "#721199",
+              "primary-fixed-dim": "#a5c8ff",
+              "surface-container": "#eceef1",
+              "on-secondary-container": "#600084",
+              "on-error-container": "#93000a",
+              "primary-fixed": "#d4e3ff",
+              "tertiary-fixed-dim": "#ffb688",
+              "background": "#f7f9fc",
+              "inverse-on-surface": "#eff1f4",
+              "secondary-fixed": "#f8d8ff",
+              "on-secondary-fixed": "#320047",
+              "on-secondary": "#ffffff",
+              "on-surface-variant": "#414752",
+              "on-tertiary": "#ffffff",
+              "surface-container-high": "#e6e8eb",
+              "on-background": "#191c1e",
+              "inverse-surface": "#2d3133",
+              "secondary": "#8c33b3",
+              "outline": "#717783",
+              "on-surface": "#191c1e",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-container": "#ba5b00",
+              "primary-container": "#1976d2",
+              "on-tertiary-fixed": "#311300",
+              "surface": "#f7f9fc",
+              "on-tertiary-fixed-variant": "#733600"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "1rem", "xl": "1.25rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- Main Content -->
+<main class="px-8 pt-8 pb-12 min-h-screen bg-surface">
+<div class="max-w-6xl mx-auto space-y-8">
+<!-- Header section formerly in TopAppBar now as page title -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+<div>
+<h2 class="font-manrope font-bold text-3xl text-blue-700 dark:text-blue-400">Mídia do Estabelecimento</h2>
+<p class="text-sm text-slate-500 font-medium">Gerencie sua identidade visual e galeria</p>
+</div>
+<button class="bg-primary hover:bg-primary-container text-on-primary px-8 py-3 rounded-full font-headline font-bold text-sm transition-all shadow-md active:opacity-80">
+                    Salvar Alterações
+                </button>
+</div>
+<!-- Bento Section: Branding & Cover -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Logo Section -->
+<div class="md:col-span-1 bg-surface-container-lowest p-8 rounded-lg shadow-none border border-transparent hover:shadow-lg transition-shadow duration-500 flex flex-col items-center justify-center text-center group">
+<div class="mb-6 relative">
+<div class="w-32 h-32 rounded-xl bg-surface-container-low flex items-center justify-center border-2 border-dashed border-outline-variant group-hover:border-primary transition-colors overflow-hidden">
+<img class="w-full h-full object-contain p-4" data-alt="minimalist modern geometric brand logo on a clean white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPDD9pRfl6WyA7hnzeQtIK-RkKLcUm7nb4PNuHxsYP9oh2wU4HBWVUXP4n0db1hy7e6UG7ccnlPTYaPIFYsSYIKDXzAFpO5VHh-zdlyC1QLSYgwQtIfXkTNUcfPGWDdK83d77WvpescxlHPde97vCxv8vZ5nm1roERcELHB-JgqJoKDftZWvSJNFE9jXsWpHDp7VzTqwJxap6nakNQesv9i8uwLGr6ZQ5pyUVyWHn4ij9pxUPu7SHwM3DYr5QtWIZibEL0tVkoqxnQ"/>
+</div>
+<button class="absolute -bottom-2 -right-2 bg-primary text-on-primary p-2 rounded-full shadow-lg hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+<h3 class="font-headline font-bold text-lg mb-2">Logotipo</h3>
+<p class="text-sm text-on-surface-variant mb-6 px-4">Use uma imagem quadrada de pelo menos 512x512px em formato PNG ou SVG.</p>
+<div class="flex gap-2">
+<button class="bg-secondary-fixed-dim text-on-secondary-fixed px-4 py-2 rounded-full text-xs font-bold font-headline uppercase tracking-wider hover:bg-secondary-container transition-colors">Alterar</button>
+<button class="text-error font-bold text-xs uppercase tracking-wider px-4 py-2 hover:bg-error-container/20 rounded-full transition-colors">Remover</button>
+</div>
+</div>
+<!-- Cover Photo Section -->
+<div class="md:col-span-2 bg-surface-container-lowest p-8 rounded-lg shadow-none border border-transparent hover:shadow-lg transition-shadow duration-500">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline font-bold text-lg">Capa Principal</h3>
+<span class="text-xs font-label text-on-surface-variant bg-surface-container-high px-3 py-1 rounded-full">Recomendado: 1920x1080px</span>
+</div>
+<div class="relative w-full aspect-[21/9] rounded-xl overflow-hidden bg-surface-container-low group border-2 border-dashed border-outline-variant hover:border-primary transition-colors">
+<img class="w-full h-full object-cover" data-alt="elegant interior of a modern boutique cafe with soft lighting and minimalist furniture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvYHRP_3Hm294iZLnLAomvktP51z83xCXaJ_Yfoq_FPMeBzMu1MOCauHhMFl-4EGyNKvuBZE0mJqGmzhgr5Ecx8XN1udNRL0qzXDHn-NeN5KyEfvBWUAjpXJcgpEXA1v0aOkEuoj251VPbdm9MQevWB0ywiO_F4gLVxGvcMTge4LQBZ4bkZHWLLSOdh7LCl8C856wDrlpYhXsHkyzH1QfQtnFqCzp3lhsOEGKCZTECIKswGvZ1vcedo-O1O9UCqEUZWsn3K9uDsspU"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+<button class="bg-white text-primary px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-sm">upload</span> Substituir
+                            </button>
+<button class="bg-error text-white px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-sm">delete</span> Remover
+                            </button>
+</div>
+</div>
+<div class="mt-6 flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">info</span>
+<p class="text-sm italic">Esta imagem será o primeiro contato visual do seu cliente no portal público.</p>
+</div>
+</div>
+</div>
+<!-- Gallery Section -->
+<div class="bg-surface-container-lowest rounded-lg p-8 shadow-none">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+<div>
+<h3 class="font-headline font-bold text-2xl tracking-tight">Galeria de Fotos</h3>
+<p class="text-on-surface-variant text-sm">Arraste para reordenar ou adicione novas mídias ao seu portfólio.</p>
+</div>
+<button class="flex items-center gap-2 bg-primary text-on-primary px-8 py-3 rounded-full font-headline font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all">
+<span class="material-symbols-outlined">add_a_photo</span>
+                        Adicionar Mídia
+                    </button>
+</div>
+<!-- Drag & Drop Grid -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Photo 1 -->
+<div class="group relative aspect-square rounded-lg overflow-hidden cursor-grab active:cursor-grabbing">
+<img class="w-full h-full object-cover" data-alt="interior view of a luxury retail store with designer clothing and warm spotlighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRiLjpT3a9pslreMcG6aPtX69yOj5pOvHRneQAAJMNhCDlxPaJuKfkWc0bSoVriwLgGoFFfwvciIei-ySQk9KQjw4exT-30olDuNLCCsSssGw3MNwYupjznjRuGkWpOZJCeXFNOGT9wbFR7poIUDzDHsHWOb22EbXLwyI-EMNm7sgNiYuNfudsjpRz5zoCc6lkLqO5iYFmCVdsJuB6ULBE2jqBLeMrwtCTkQhKE1ysF92ZTi9eFQryzqzsvdw6-TxVxTJj9evG7Pk8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
+<div class="flex justify-between items-center">
+<span class="material-symbols-outlined text-white text-lg">drag_indicator</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-sm">visibility</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-error transition-colors">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Photo 2 -->
+<div class="group relative aspect-square rounded-lg overflow-hidden cursor-grab active:cursor-grabbing">
+<img class="w-full h-full object-cover" data-alt="vibrant atmosphere inside a high-end restaurant with guests enjoying fine dining" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrZqxUsb6ePkU2IC-bzc1vxXo8QnjABMic_JZ9Rpwb2TKdb1UW69Gzvzd1f_qRLQ8FOPO3MWW3JLx5O8vzyWU4NbSCWetNTIg0M0gkDMjeStFnC9Sr1nC4xTBH9zUL6OibPmfhwWZMDtdk8EbH6Jar4rGHv4GnjCcW2DSd4PblQgocAHsKlaW7WIRk0i1xeSrFYLFsHwEbXwIcj4O5NlhfTewFVpbg1uDJXZQKP8iuPdzvJWjO5dksYqCRfTFJB28DiJeCT6PNpFBg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
+<div class="flex justify-between items-center">
+<span class="material-symbols-outlined text-white text-lg">drag_indicator</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-sm">visibility</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-error transition-colors">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Photo 3 -->
+<div class="group relative aspect-square rounded-lg overflow-hidden cursor-grab active:cursor-grabbing">
+<img class="w-full h-full object-cover" data-alt="sleek modern corporate office lobby with glass walls and professional minimalist design" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXXEXhNRgIExGCpUpq_cgdnoxfjcY_Kw4pVzFCy6pBiQPANxXXwDHZuYeiWYvAr1wSJhJE7EPJ5cZAp7uOm07tGrcfsdGZEz2MfM0iDtpQjZqSG_wJrbzR4av306C-H1QK8i2fLpDnnvnnLqiw1wGUgFqO5WDgzmTShdJTvEbqRZ4oNvtLKr5-WOMYKrH8TjA0MUZ5AsEskrliC93kvbDeLN8tElVPg70xrGCdnekYwyv-Oc8lPf5jkctfF3JlFNW5jnh4xQiPbQq6"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
+<div class="flex justify-between items-center">
+<span class="material-symbols-outlined text-white text-lg">drag_indicator</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-sm">visibility</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-error transition-colors">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty Upload Slot -->
+<div class="group relative aspect-square rounded-lg border-2 border-dashed border-outline-variant bg-surface-container-low hover:bg-surface-container-high hover:border-primary transition-all flex flex-col items-center justify-center gap-2 cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-surface flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">add</span>
+</div>
+<span class="text-xs font-bold font-headline uppercase tracking-wider text-on-surface-variant">Carregar</span>
+</div>
+<!-- Photo 4 -->
+<div class="group relative aspect-square rounded-lg overflow-hidden cursor-grab active:cursor-grabbing">
+<img class="w-full h-full object-cover" data-alt="close-up of high-quality handcrafted leather products in a boutique store setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBS6AaPcQlNwgc2ffI9wHbjdr9hvTMTaRlA_enQe5ZmqlnLDN1HPs6vPLq9eq6qRsWW4URc0_Tt-IFexvnsc27nLpJ90LpdqLuib7bxGEswmX4aP31Yl33KZXwWl5Se0QTO5rrMnypuNH316GDYUyw_MJ21O8npV2I4QQSpjN6c9v-Kk9EdHcVQ_lZunA6EmXVkIJE40LsqQdL7vc5nbsEzPL0mGSapZauxbgfwOHcrWJEf3Gq3ZfdsSYQM-YWm3wDj1wXbr3tErdz-"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
+<div class="flex justify-between items-center">
+<span class="material-symbols-outlined text-white text-lg">drag_indicator</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-sm">visibility</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-error transition-colors">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Photo 5 -->
+<div class="group relative aspect-square rounded-lg overflow-hidden cursor-grab active:cursor-grabbing">
+<img class="w-full h-full object-cover" data-alt="friendly customer service interaction at a clean modern reception desk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA25FXrj99mQMmIYSi1FHZSHd0NZxIwBUwj_CfgeByuUJFZ6ZvJEK1YPBET6sloYO295KX1Yu1xwlD01dC8f85bgVIRifYIu6-9yDWv1IHcZUbznkPc3TpTKlyQXaalOZR6GhQGvCLadDaGGybNcs_gW9ZENoJZ8aiIRjh7i1B35JnAZH1y4vh0AncnQR3cWnCdDU7R_i17WuPbLX_KmpKZlpsQbXi0ICxJXW9CUn-5jD7qD0m4TXFsK6tKnvq7ZGcBPUNzNCR04VeT"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
+<div class="flex justify-between items-center">
+<span class="material-symbols-outlined text-white text-lg">drag_indicator</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-sm">visibility</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-error transition-colors">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Gallery Footer -->
+<div class="mt-8 pt-8 border-t border-surface-container-high flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-6">
+<div class="text-center">
+<span class="block text-2xl font-headline font-bold text-primary">05 / 20</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Fotos Usadas</span>
+</div>
+<div class="w-px h-10 bg-surface-container-high"></div>
+<div class="text-center">
+<span class="block text-2xl font-headline font-bold text-primary">0 / 05</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Vídeos</span>
+</div>
+</div>
+<div class="flex items-center gap-3 bg-tertiary-fixed text-on-tertiary-fixed px-4 py-2 rounded-lg">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="text-sm font-medium">As fotos com maior resolução aparecem primeiro automaticamente.</span>
+</div>
+</div>
+</div>
+<!-- Promotion Banner -->
+<div class="bg-primary overflow-hidden rounded-lg shadow-xl relative">
+<div class="absolute inset-0 opacity-10">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+</div>
+<div class="relative p-10 flex flex-col md:flex-row items-center justify-between gap-8">
+<div class="text-on-primary">
+<h4 class="font-headline font-extrabold text-3xl mb-2">Destaque sua Marca</h4>
+<p class="text-primary-fixed max-w-lg opacity-90">Sua mídia é o espelho do seu negócio. Imagens profissionais aumentam a taxa de conversão em até 45%.</p>
+</div>
+<button class="whitespace-nowrap bg-white text-primary px-10 py-4 rounded-full font-headline font-extrabold shadow-lg hover:bg-primary-fixed hover:scale-105 transition-all">
+                        Solicitar Fotógrafo Pro
+                    </button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

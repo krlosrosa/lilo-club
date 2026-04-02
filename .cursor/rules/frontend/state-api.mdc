@@ -1,0 +1,16 @@
+---
+description: "This rule provides standards for frontend API validation, state management, and async operations"
+alwaysApply: false
+---
+
+# State & Data Fetching
+
+- **HTTP Client:** Use the pre-configured instance in @src/lib/api.ts for all requests.
+- **Server State:** Use TanStack Query (React Query) for caching and data fetching.
+- **Custom Hooks:** Feature-specific data logic lives in `src/features/<domain>/` (e.g. `hooks.ts` or co-located next to components). Use `src/hooks/` only for logic **shared across multiple features** (e.g. global health).
+- **Validation:** Use `zod` for all data schemas. Reference @src/lib/validations/ for existing patterns.
+- **Feedback:** Implement Loading (Skeletons/Spinners) and Error states for every async operation.
+
+## Canonical References
+- API Client: @src/lib/api.ts
+- Validation Patterns: @src/lib/validations/
