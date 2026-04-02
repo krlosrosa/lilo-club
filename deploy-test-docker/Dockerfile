@@ -9,15 +9,9 @@ RUN corepack enable && corepack prepare pnpm@9.15.0 --activate \
 
 FROM base AS installer
 WORKDIR /repo
-# lockfile + workspace importers: deploy --prod re-resolve o workspace; sem estes
-# package.json falha (ex.: ERR_PNPM_WORKSPACE_PKG_NOT_FOUND em @lilo-hub/eslint-config).
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc* ./
 COPY apps/api/package.json ./apps/api/
-COPY apps/web/package.json ./apps/web/
 COPY packages/contracts/package.json ./packages/contracts/
-COPY packages/clients/package.json ./packages/clients/
-COPY packages/ui/package.json ./packages/ui/
-COPY packages/eslint-config ./packages/eslint-config/
 RUN pnpm install --frozen-lockfile
 
 FROM installer AS builder
@@ -28,8 +22,7 @@ RUN pnpm --filter @lilo-hub/contracts build \
   && pnpm --filter @lilo-hub/api build
 
 FROM builder AS deployer
-RUN mkdir -p /deploy/api \
-  && pnpm --filter @lilo-hub/api deploy --prod /deploy/api
+RUN pnpm --filter @lilo-hub/api deploy --prod /deploy/api
 
 FROM node:20-alpine AS runner
 WORKDIR /app

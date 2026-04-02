@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1775086333427,
+      "tag": "0000_clammy_blizzard",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1775087182445,
+      "tag": "0001_lumpy_madrox",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1743590400000,
+      "tag": "0002_cidade_estabelecimento_dominio",
+      "breakpoints": true
+    }
+  ]
+}
