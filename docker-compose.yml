@@ -2,8 +2,13 @@
 # Pré-requisitos: rede externa `traefik-public` (mesmo nome que o Traefik usa).
 #   docker network create traefik-public
 #
-# Portainer: não use `env_file` (o stack path não tem `.env` por padrão). Preencha as
-# variáveis em "Environment variables" ao criar/editar a stack (veja `.env.docker.example`).
+# === PORTAINER: SEM env_file NESTE FICHEIRO ===
+# Se aparecer: "env file /data/compose/.../.env not found" → o YAML na stack AINDA tem
+# `env_file: .env` (ou herdado de template). No editor da stack: Ctrl+F "env_file" e
+# REMOVA esse bloco inteiro; depois cole de novo este ficheiro do repositório (Git pull).
+# NÃO marque opções do tipo "anexar .env ao serviço" se isso recriar `env_file`.
+# Variáveis: só "Environment variables" da stack + ${VAR} abaixo (ver .env.docker.example).
+#
 # CLI local: `docker compose --env-file .env up -d` ou exporte as mesmas variáveis.
 
 name: lilo-hub
