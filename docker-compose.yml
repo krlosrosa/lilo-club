@@ -1,6 +1,7 @@
 # Produção: Web (/) + API (/api) no mesmo host via Traefik.
-# Pré-requisitos: rede externa `traefik-public` (mesmo nome que o Traefik usa).
-#   docker network create traefik-public
+# A stack tem de usar a MESMA rede Docker à qual o Traefik está ligado.
+# Defina TRAEFIK_NETWORK nas variáveis da stack (Portainer) — ex.: proxy, web, traefik-public.
+#   docker network ls   # veja o nome real (no teu host costuma ser "proxy").
 #
 # === PORTAINER: SEM env_file NESTE FICHEIRO ===
 # Se aparecer: "env file /data/compose/.../.env not found" → o YAML na stack AINDA tem
@@ -41,11 +42,11 @@ services:
     volumes:
       - api_data:/app/data
     networks:
-      - traefik-public
+      - traefik_edge
       - internal
     labels:
       - traefik.enable=true
-      - traefik.docker.network=traefik-public
+      - traefik.docker.network=${TRAEFIK_NETWORK}
       - traefik.http.routers.lilo-api-secure.rule=Host(`${DOMAIN}`) && PathPrefix(`/api`)
       - traefik.http.routers.lilo-api-secure.entrypoints=websecure
       - traefik.http.routers.lilo-api-secure.tls=true
@@ -74,11 +75,11 @@ services:
     depends_on:
       - api
     networks:
-      - traefik-public
+      - traefik_edge
       - internal
     labels:
       - traefik.enable=true
-      - traefik.docker.network=traefik-public
+      - traefik.docker.network=${TRAEFIK_NETWORK}
       - traefik.http.middlewares.lilo-gotls.redirectscheme.scheme=https
       - traefik.http.middlewares.lilo-gotls.redirectscheme.permanent=true
       - traefik.http.routers.lilo-web-secure.rule=Host(`${DOMAIN}`)
@@ -98,7 +99,8 @@ volumes:
   api_data:
 
 networks:
-  traefik-public:
+  traefik_edge:
+    name: ${TRAEFIK_NETWORK}
     external: true
   internal:
     driver: bridge
