@@ -13,18 +13,23 @@ export class AuthenticateWithGoogleUsecase {
   ) {}
 
   async execute(input: GoogleOAuthLinkInput): Promise<UserRecord> {
+    const normalized = {
+      ...input,
+      email: input.email.trim().toLowerCase(),
+    };
+
     const existingOAuth = await this.users.findByOAuthProvider(
-      input.provider,
-      input.providerUserId,
+      normalized.provider,
+      normalized.providerUserId,
     );
     if (existingOAuth) return existingOAuth;
 
-    const byEmail = await this.users.findByEmail(input.email);
+    const byEmail = await this.users.findByEmail(normalized.email);
     if (byEmail) {
-      await this.users.linkOAuthIdentity(byEmail.id, input);
+      await this.users.linkOAuthIdentity(byEmail.id, normalized);
       const linked = await this.users.findByOAuthProvider(
-        input.provider,
-        input.providerUserId,
+        normalized.provider,
+        normalized.providerUserId,
       );
       if (!linked) {
         throw new Error('OAuth identity link failed');
@@ -32,6 +37,6 @@ export class AuthenticateWithGoogleUsecase {
       return linked;
     }
 
-    return this.users.createUserWithOAuth(input);
+    return this.users.createUserWithOAuth(normalized);
   }
 }

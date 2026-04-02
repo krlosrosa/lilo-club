@@ -1,4 +1,3 @@
-import { eq } from 'drizzle-orm';
 import type { UserRecord } from '../../../domain/model/user.model.js';
 import { oauthIdentities, users } from '../providers/drizzle/config/migrations/index.js';
 import type { DrizzleClient } from '../providers/drizzle/drizzle.types.js';
@@ -17,10 +16,11 @@ export async function insertUserWithOAuthDb(
     createdAt: number;
   },
 ): Promise<UserRecord> {
-  // better-sqlite3: callback must be sync and not return a Promise; builders only
-  // run when .run() is called (await does not work inside sync tx).
-  db.transaction((tx) => {
-    tx
+  // better-sqlite3: tx callback must be sync; statements must use .run() / .all().
+  // Use RETURNING inside the same transaction so we never depend on a second SELECT
+  // seeing committed data (avoids empty reads after a successful insert).
+  const row = db.transaction((tx) => {
+    const inserted = tx
       .insert(users)
       .values({
         id: params.userId,
@@ -32,7 +32,8 @@ export async function insertUserWithOAuthDb(
         platformRole: 'none',
         createdAt: params.createdAt,
       })
-      .run();
+      .returning()
+      .all();
     tx
       .insert(oauthIdentities)
       .values({
@@ -43,9 +44,8 @@ export async function insertUserWithOAuthDb(
         createdAt: params.createdAt,
       })
       .run();
+    return inserted[0];
   });
-  const rows = await db.select().from(users).where(eq(users.id, params.userId)).limit(1);
-  const row = rows[0];
   if (!row) throw new Error('User insert failed');
   return mapUserRow(row);
 }
