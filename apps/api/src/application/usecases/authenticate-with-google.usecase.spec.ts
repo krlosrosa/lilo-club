@@ -68,15 +68,16 @@ describe('AuthenticateWithGoogleUsecase', () => {
     const result = await usecase.execute({
       provider: OAUTH_PROVIDER_GOOGLE,
       providerUserId: 'google-sub',
-      email: baseUser.email,
+      email: 'User@Example.com',
       nome: 'Updated',
       avatarUrl: 'https://x/y.png',
     });
 
+    expect(repo.findByEmail).toHaveBeenCalledWith('user@example.com');
     expect(repo.linkOAuthIdentity).toHaveBeenCalledWith(baseUser.id, {
       provider: OAUTH_PROVIDER_GOOGLE,
       providerUserId: 'google-sub',
-      email: baseUser.email,
+      email: 'user@example.com',
       nome: 'Updated',
       avatarUrl: 'https://x/y.png',
     });
