@@ -14,21 +14,14 @@ export async function linkOAuthIdentityDb(
     createdAt: number;
   },
 ): Promise<void> {
-  db.transaction((tx) => {
-    tx
-      .insert(oauthIdentities)
-      .values({
-        id: params.oauthIdentityId,
-        userId: params.userId,
-        provider: params.provider,
-        providerUserId: params.providerUserId,
-        createdAt: params.createdAt,
-      })
-      .run();
-    tx
-      .update(users)
-      .set({ nome: params.nome, avatarUrl: params.avatarUrl })
-      .where(eq(users.id, params.userId))
-      .run();
+  await db.transaction(async (tx) => {
+    await tx.insert(oauthIdentities).values({
+      id: params.oauthIdentityId,
+      userId: params.userId,
+      provider: params.provider,
+      providerUserId: params.providerUserId,
+      createdAt: params.createdAt,
+    });
+    await tx.update(users).set({ nome: params.nome, avatarUrl: params.avatarUrl }).where(eq(users.id, params.userId));
   });
 }

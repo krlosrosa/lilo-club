@@ -23,7 +23,8 @@ services:
     environment:
       NODE_ENV: production
       PORT: "4000"
-      DATABASE_URL: file:/app/data/app.db
+      # Postgres noutro servidor: defina DATABASE_URL na stack (Portainer) ou no `.env` da raiz (compose --env-file).
+      DATABASE_URL: ${DATABASE_URL}
       SWAGGER_ENABLED: "false"
       CORS_ORIGINS: "https://${DOMAIN}"
       WEB_APP_URL: "https://${DOMAIN}"
@@ -39,8 +40,6 @@ services:
       R2_SECRET_ACCESS_KEY: ${R2_SECRET_ACCESS_KEY}
       R2_BUCKET: ${R2_BUCKET}
       R2_PUBLIC_BASE_URL: ${R2_PUBLIC_BASE_URL:-}
-    volumes:
-      - api_data:/app/data
     networks:
       - traefik_edge
       - internal
@@ -94,9 +93,6 @@ services:
       - traefik.http.routers.lilo-web-http.middlewares=lilo-gotls@docker
       - traefik.http.routers.lilo-web-http.priority=10
       - traefik.http.routers.lilo-web-http.service=lilo-web
-
-volumes:
-  api_data:
 
 networks:
   traefik_edge:

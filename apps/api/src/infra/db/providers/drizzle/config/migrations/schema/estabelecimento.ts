@@ -1,15 +1,15 @@
-import { sqliteTable, text, integer, real } from 'drizzle-orm/sqlite-core';
+import { pgTable, text, integer, real, boolean } from 'drizzle-orm/pg-core';
 import { accounts } from './saas';
 import { cidades } from './cidades';
 import { users } from './users';
 
-export const categorias = sqliteTable('categorias', {
+export const categorias = pgTable('categorias', {
   id: text('id').primaryKey(),
   nome: text('nome').notNull(),
-  ordem: integer('ordem', { mode: 'number' }).notNull().default(0),
+  ordem: integer('ordem').notNull().default(0),
 });
 
-export const estabelecimentos = sqliteTable('estabelecimentos', {
+export const estabelecimentos = pgTable('estabelecimentos', {
   id: text('id').primaryKey(),
   accountId: text('account_id')
     .notNull()
@@ -25,21 +25,21 @@ export const estabelecimentos = sqliteTable('estabelecimentos', {
   dominio: text('dominio').unique(),
   descricao: text('descricao'),
   conteudoSemantico: text('conteudo_semantico'),
-  pesoDestaque: integer('peso_destaque', { mode: 'number' }).notNull().default(0),
+  pesoDestaque: integer('peso_destaque').notNull().default(0),
   status: text('status').notNull().default('rascunho'),
-  publicado: integer('publicado', { mode: 'boolean' }).notNull().default(false),
-  destaque: integer('destaque', { mode: 'boolean' }).notNull().default(false),
+  publicado: boolean('publicado').notNull().default(false),
+  destaque: boolean('destaque').notNull().default(false),
   scoreMedio: real('score_medio'),
-  totalAvaliacoes: integer('total_avaliacoes', { mode: 'number' }).notNull().default(0),
-  codigoPublico: integer('codigo_publico', { mode: 'number' }),
+  totalAvaliacoes: integer('total_avaliacoes').notNull().default(0),
+  codigoPublico: integer('codigo_publico'),
   createdByUserId: text('created_by_user_id').references(() => users.id, {
     onDelete: 'set null',
   }),
-  createdAt: integer('created_at', { mode: 'number' }).notNull(),
-  updatedAt: integer('updated_at', { mode: 'number' }).notNull(),
+  createdAt: integer('created_at').notNull(),
+  updatedAt: integer('updated_at').notNull(),
 });
 
-export const estabelecimentosEnderecos = sqliteTable('estabelecimentos_enderecos', {
+export const estabelecimentosEnderecos = pgTable('estabelecimentos_enderecos', {
   estabelecimentoId: text('estabelecimento_id')
     .primaryKey()
     .references(() => estabelecimentos.id, { onDelete: 'cascade' }),
@@ -50,27 +50,25 @@ export const estabelecimentosEnderecos = sqliteTable('estabelecimentos_enderecos
   uf: text('uf'),
   latitude: real('latitude'),
   longitude: real('longitude'),
-  localVerificado: integer('local_verificado', { mode: 'boolean' })
-    .notNull()
-    .default(false),
-  atualizadoEm: integer('atualizado_em', { mode: 'number' }),
+  localVerificado: boolean('local_verificado').notNull().default(false),
+  atualizadoEm: integer('atualizado_em'),
 });
 
-export const estabelecimentosHorarioIntervalos = sqliteTable(
+export const estabelecimentosHorarioIntervalos = pgTable(
   'estabelecimentos_horario_intervalos',
   {
     id: text('id').primaryKey(),
     estabelecimentoId: text('estabelecimento_id')
       .notNull()
       .references(() => estabelecimentos.id, { onDelete: 'cascade' }),
-    diaSemana: integer('dia_semana', { mode: 'number' }).notNull(),
-    ordem: integer('ordem', { mode: 'number' }).notNull().default(0),
+    diaSemana: integer('dia_semana').notNull(),
+    ordem: integer('ordem').notNull().default(0),
     abre: text('abre').notNull(),
     fecha: text('fecha').notNull(),
   },
 );
 
-export const estabelecimentosMidias = sqliteTable('estabelecimentos_midias', {
+export const estabelecimentosMidias = pgTable('estabelecimentos_midias', {
   id: text('id').primaryKey(),
   estabelecimentoId: text('estabelecimento_id')
     .notNull()
@@ -78,23 +76,22 @@ export const estabelecimentosMidias = sqliteTable('estabelecimentos_midias', {
   tipo: text('tipo').notNull(),
   storageKey: text('storage_key').notNull(),
   urlPublica: text('url_publica'),
-  ordem: integer('ordem', { mode: 'number' }).notNull().default(0),
-  createdAt: integer('created_at', { mode: 'number' }).notNull(),
+  ordem: integer('ordem').notNull().default(0),
+  createdAt: integer('created_at').notNull(),
 });
 
-/** Nome prefixado para FK após `estabelecimentos` na ordem lexicográfica do SQLite. */
-export const estabelecimentosAvaliacoes = sqliteTable('estabelecimentos_avaliacoes', {
+export const estabelecimentosAvaliacoes = pgTable('estabelecimentos_avaliacoes', {
   id: text('id').primaryKey(),
   estabelecimentoId: text('estabelecimento_id')
     .notNull()
     .references(() => estabelecimentos.id, { onDelete: 'cascade' }),
   autorId: text('autor_id').references(() => users.id, { onDelete: 'set null' }),
-  nota: integer('nota', { mode: 'number' }).notNull(),
+  nota: integer('nota').notNull(),
   comentario: text('comentario'),
   resposta: text('resposta'),
-  respondidoEm: integer('respondido_em', { mode: 'number' }),
-  destaquePositivo: integer('destaque_positivo', { mode: 'boolean' }).default(false),
-  temMidia: integer('tem_midia', { mode: 'boolean' }).notNull().default(false),
-  utilCount: integer('util_count', { mode: 'number' }).notNull().default(0),
-  createdAt: integer('created_at', { mode: 'number' }).notNull(),
+  respondidoEm: integer('respondido_em'),
+  destaquePositivo: boolean('destaque_positivo').default(false),
+  temMidia: boolean('tem_midia').notNull().default(false),
+  utilCount: integer('util_count').notNull().default(0),
+  createdAt: integer('created_at').notNull(),
 });

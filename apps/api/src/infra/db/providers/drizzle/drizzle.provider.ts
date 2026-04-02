@@ -1,13 +1,10 @@
-import Database from 'better-sqlite3';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { Pool } from 'pg';
 import * as schema from './config/migrations/index.js';
 import type { DrizzleClient } from './drizzle.types.js';
-import { ensureSqliteDirectory, resolveSqlitePath } from './resolve-sqlite-path.js';
+import { resolveDatabaseUrl } from './resolve-database-url.js';
 
 export function createDrizzleClient(): DrizzleClient {
-  const sqlitePath = resolveSqlitePath();
-  ensureSqliteDirectory(sqlitePath);
-  const sqlite = new Database(sqlitePath);
-  sqlite.pragma('foreign_keys = ON');
-  return drizzle(sqlite, { schema });
+  const pool = new Pool({ connectionString: resolveDatabaseUrl() });
+  return drizzle(pool, { schema });
 }

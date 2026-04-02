@@ -21,42 +21,33 @@ export async function ensureBootstrapAccountDb(
   const subscriptionId = randomUUID();
   const now = Date.now();
 
-  db.transaction((tx) => {
-    tx
-      .insert(accounts)
-      .values({
-        id: accountId,
-        nome: params.accountNome,
-        slug: null,
-        stripeCustomerId: null,
-        createdAt: now,
-        updatedAt: now,
-      })
-      .run();
-    tx
-      .insert(accountsUsers)
-      .values({
-        id: membershipId,
-        accountId,
-        userId: params.userId,
-        role: 'owner',
-        createdAt: now,
-      })
-      .run();
-    tx
-      .insert(subscriptions)
-      .values({
-        id: subscriptionId,
-        accountId,
-        planId: params.planFreeId,
-        status: 'active',
-        providerSubscriptionId: null,
-        currentPeriodStart: null,
-        currentPeriodEnd: null,
-        cancelAtPeriodEnd: false,
-        createdAt: now,
-      })
-      .run();
+  await db.transaction(async (tx) => {
+    await tx.insert(accounts).values({
+      id: accountId,
+      nome: params.accountNome,
+      slug: null,
+      stripeCustomerId: null,
+      createdAt: now,
+      updatedAt: now,
+    });
+    await tx.insert(accountsUsers).values({
+      id: membershipId,
+      accountId,
+      userId: params.userId,
+      role: 'owner',
+      createdAt: now,
+    });
+    await tx.insert(subscriptions).values({
+      id: subscriptionId,
+      accountId,
+      planId: params.planFreeId,
+      status: 'active',
+      providerSubscriptionId: null,
+      currentPeriodStart: null,
+      currentPeriodEnd: null,
+      cancelAtPeriodEnd: false,
+      createdAt: now,
+    });
   });
 
   return { accountId, created: true };

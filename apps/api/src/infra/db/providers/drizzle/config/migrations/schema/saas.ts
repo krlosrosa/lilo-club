@@ -1,17 +1,16 @@
-import { sqliteTable, text, integer, uniqueIndex } from 'drizzle-orm/sqlite-core';
+import { pgTable, text, integer, uniqueIndex, boolean } from 'drizzle-orm/pg-core';
 import { users } from './users';
 
-export const accounts = sqliteTable('accounts', {
+export const accounts = pgTable('accounts', {
   id: text('id').primaryKey(),
   nome: text('nome').notNull(),
   slug: text('slug').unique(),
   stripeCustomerId: text('stripe_customer_id'),
-  createdAt: integer('created_at', { mode: 'number' }).notNull(),
-  updatedAt: integer('updated_at', { mode: 'number' }).notNull(),
+  createdAt: integer('created_at').notNull(),
+  updatedAt: integer('updated_at').notNull(),
 });
 
-/** Nome `accounts_users` para ordenação de FK no SQLite (após `accounts`). */
-export const accountsUsers = sqliteTable(
+export const accountsUsers = pgTable(
   'accounts_users',
   {
     id: text('id').primaryKey(),
@@ -22,7 +21,7 @@ export const accountsUsers = sqliteTable(
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
     role: text('role').notNull(),
-    createdAt: integer('created_at', { mode: 'number' }).notNull(),
+    createdAt: integer('created_at').notNull(),
   },
   (t) => ({
     uqAccountUser: uniqueIndex('uq_accounts_users_account_user').on(
@@ -32,20 +31,18 @@ export const accountsUsers = sqliteTable(
   }),
 );
 
-export const plans = sqliteTable('plans', {
+export const plans = pgTable('plans', {
   id: text('id').primaryKey(),
   slug: text('slug').notNull().unique(),
   nome: text('nome').notNull(),
-  maxEstabelecimentos: integer('max_estabelecimentos', { mode: 'number' }).notNull(),
-  maxMidiasPorEstabelecimento: integer('max_midias_por_estabelecimento', {
-    mode: 'number',
-  }),
-  seloPremium: integer('selo_premium', { mode: 'boolean' }).notNull().default(false),
-  ordem: integer('ordem', { mode: 'number' }).notNull().default(0),
-  createdAt: integer('created_at', { mode: 'number' }).notNull(),
+  maxEstabelecimentos: integer('max_estabelecimentos').notNull(),
+  maxMidiasPorEstabelecimento: integer('max_midias_por_estabelecimento'),
+  seloPremium: boolean('selo_premium').notNull().default(false),
+  ordem: integer('ordem').notNull().default(0),
+  createdAt: integer('created_at').notNull(),
 });
 
-export const subscriptions = sqliteTable('subscriptions', {
+export const subscriptions = pgTable('subscriptions', {
   id: text('id').primaryKey(),
   accountId: text('account_id')
     .notNull()
@@ -55,10 +52,8 @@ export const subscriptions = sqliteTable('subscriptions', {
     .references(() => plans.id, { onDelete: 'restrict' }),
   status: text('status').notNull(),
   providerSubscriptionId: text('provider_subscription_id'),
-  currentPeriodStart: integer('current_period_start', { mode: 'number' }),
-  currentPeriodEnd: integer('current_period_end', { mode: 'number' }),
-  cancelAtPeriodEnd: integer('cancel_at_period_end', { mode: 'boolean' }).default(
-    false,
-  ),
-  createdAt: integer('created_at', { mode: 'number' }).notNull(),
+  currentPeriodStart: integer('current_period_start'),
+  currentPeriodEnd: integer('current_period_end'),
+  cancelAtPeriodEnd: boolean('cancel_at_period_end').default(false),
+  createdAt: integer('created_at').notNull(),
 });

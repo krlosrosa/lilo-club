@@ -1,6 +1,6 @@
-import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
+import { pgTable, text, integer } from 'drizzle-orm/pg-core';
 
-export const users = sqliteTable('users', {
+export const users = pgTable('users', {
   id: text('id').primaryKey(),
   email: text('email').notNull().unique(),
   nome: text('nome'),
@@ -10,5 +10,5 @@ export const users = sqliteTable('users', {
   tipoUsuario: text('tipo_usuario'),
   /** Papel de plataforma: super_admin | none */
   platformRole: text('platform_role').notNull().default('none'),
-  createdAt: integer('created_at', { mode: 'number' }).notNull(),
+  createdAt: integer('created_at').notNull(),
 });

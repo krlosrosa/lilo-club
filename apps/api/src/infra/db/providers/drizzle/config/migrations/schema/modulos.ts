@@ -1,15 +1,15 @@
-import { sqliteTable, text, integer, primaryKey } from 'drizzle-orm/sqlite-core';
+import { pgTable, text, integer, primaryKey } from 'drizzle-orm/pg-core';
 import { plans } from './saas';
 
-export const modulos = sqliteTable('modulos', {
+export const modulos = pgTable('modulos', {
   id: text('id').primaryKey(),
   slug: text('slug').notNull().unique(),
   nome: text('nome').notNull(),
   descricao: text('descricao'),
-  ordem: integer('ordem', { mode: 'number' }).notNull().default(0),
+  ordem: integer('ordem').notNull().default(0),
 });
 
-export const planModulos = sqliteTable(
+export const planModulos = pgTable(
   'plan_modulos',
   {
     planId: text('plan_id')

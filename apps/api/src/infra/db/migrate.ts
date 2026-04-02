@@ -2,18 +2,26 @@
  * Applies SQL files from `apps/api/drizzle` (see drizzle/meta/_journal.json).
  * Run: pnpm --filter @lilo-hub/api db:migrate
  */
+import './load-api-env.js';
 import path from 'node:path';
-import Database from 'better-sqlite3';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
-import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
-import { ensureSqliteDirectory, resolveSqlitePath } from './providers/drizzle/resolve-sqlite-path.js';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { migrate } from 'drizzle-orm/node-postgres/migrator';
+import { Pool } from 'pg';
+import { resolveDatabaseUrl } from './providers/drizzle/resolve-database-url.js';
 
-const sqlitePath = resolveSqlitePath();
-ensureSqliteDirectory(sqlitePath);
-const sqlite = new Database(sqlitePath);
-sqlite.pragma('foreign_keys = ON');
-const db = drizzle(sqlite);
-migrate(db, { migrationsFolder: path.join(process.cwd(), 'drizzle') });
-sqlite.close();
-// eslint-disable-next-line no-console -- CLI
-console.log('Migrations applied OK.');
+async function main(): Promise<void> {
+  const pool = new Pool({ connectionString: resolveDatabaseUrl() });
+  const db = drizzle(pool);
+  try {
+    await migrate(db, { migrationsFolder: path.join(process.cwd(), 'drizzle') });
+  } finally {
+    await pool.end();
+  }
+  // eslint-disable-next-line no-console -- CLI
+  console.log('Migrations applied OK.');
+}
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
