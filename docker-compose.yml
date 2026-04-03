@@ -81,14 +81,15 @@ services:
       - traefik.docker.network=${TRAEFIK_NETWORK}
       - traefik.http.middlewares.lilo-gotls.redirectscheme.scheme=https
       - traefik.http.middlewares.lilo-gotls.redirectscheme.permanent=true
-      - traefik.http.routers.lilo-web-secure.rule=Host(`${DOMAIN}`)
+      # Aceita DOMAIN (apex) e qualquer *.DOMAIN (regex; defina DOMAIN_TRAEFIK_REGEX_SUFFIX no .env).
+      - traefik.http.routers.lilo-web-secure.rule=HostRegexp(`^([a-z0-9-]+\\.)*${DOMAIN_TRAEFIK_REGEX_SUFFIX}$`)
       - traefik.http.routers.lilo-web-secure.entrypoints=websecure
       - traefik.http.routers.lilo-web-secure.tls=true
       - traefik.http.routers.lilo-web-secure.tls.certresolver=${TRAEFIK_CERT_RESOLVER}
       - traefik.http.routers.lilo-web-secure.priority=10
       - traefik.http.routers.lilo-web-secure.service=lilo-web
       - traefik.http.services.lilo-web.loadbalancer.server.port=3000
-      - traefik.http.routers.lilo-web-http.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.lilo-web-http.rule=HostRegexp(`^([a-z0-9-]+\\.)*${DOMAIN_TRAEFIK_REGEX_SUFFIX}$`)
       - traefik.http.routers.lilo-web-http.entrypoints=web
       - traefik.http.routers.lilo-web-http.middlewares=lilo-gotls@docker
       - traefik.http.routers.lilo-web-http.priority=10
