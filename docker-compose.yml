@@ -81,20 +81,31 @@ services:
       - traefik.docker.network=${TRAEFIK_NETWORK}
       - traefik.http.middlewares.lilo-gotls.redirectscheme.scheme=https
       - traefik.http.middlewares.lilo-gotls.redirectscheme.permanent=true
-      # Apex: Host(DOMAIN). Subdomínios: qualquer coisa. + DOMAIN (DOMAIN_TRAEFIK_REGEX_SUFFIX = DOMAIN com \. em cada ponto).
-      # (?i) = host case-insensitive. O browser tem de usar *.DOMAIN (ex.: loja.guia.com), não um nível acima — senão dá 404 no Traefik.
-      - traefik.http.routers.lilo-web-secure.rule=Host(`${DOMAIN}`) || HostRegexp(`(?i)^([a-z0-9-]+\\.)+${DOMAIN_TRAEFIK_REGEX_SUFFIX}$`)
+      # Apex: só Host(DOMAIN) — igual ao comportamento original (regex à parte não pode partir o principal).
+      - traefik.http.routers.lilo-web-secure.rule=Host(`${DOMAIN}`)
       - traefik.http.routers.lilo-web-secure.entrypoints=websecure
       - traefik.http.routers.lilo-web-secure.tls=true
       - traefik.http.routers.lilo-web-secure.tls.certresolver=${TRAEFIK_CERT_RESOLVER}
       - traefik.http.routers.lilo-web-secure.priority=10
       - traefik.http.routers.lilo-web-secure.service=lilo-web
       - traefik.http.services.lilo-web.loadbalancer.server.port=3000
-      - traefik.http.routers.lilo-web-http.rule=Host(`${DOMAIN}`) || HostRegexp(`(?i)^([a-z0-9-]+\\.)+${DOMAIN_TRAEFIK_REGEX_SUFFIX}$`)
+      - traefik.http.routers.lilo-web-http.rule=Host(`${DOMAIN}`)
       - traefik.http.routers.lilo-web-http.entrypoints=web
       - traefik.http.routers.lilo-web-http.middlewares=lilo-gotls@docker
       - traefik.http.routers.lilo-web-http.priority=10
       - traefik.http.routers.lilo-web-http.service=lilo-web
+      # Subdomínios *.DOMAIN (sufixo regex = DOMAIN com \. entre labels). Router independente: se falhar, o apex acima continua.
+      - traefik.http.routers.lilo-web-subs-secure.rule=HostRegexp(`(?i)^([a-z0-9-]+\\.)+${DOMAIN_TRAEFIK_REGEX_SUFFIX}$`)
+      - traefik.http.routers.lilo-web-subs-secure.entrypoints=websecure
+      - traefik.http.routers.lilo-web-subs-secure.tls=true
+      - traefik.http.routers.lilo-web-subs-secure.tls.certresolver=${TRAEFIK_CERT_RESOLVER}
+      - traefik.http.routers.lilo-web-subs-secure.priority=10
+      - traefik.http.routers.lilo-web-subs-secure.service=lilo-web
+      - traefik.http.routers.lilo-web-subs-http.rule=HostRegexp(`(?i)^([a-z0-9-]+\\.)+${DOMAIN_TRAEFIK_REGEX_SUFFIX}$`)
+      - traefik.http.routers.lilo-web-subs-http.entrypoints=web
+      - traefik.http.routers.lilo-web-subs-http.middlewares=lilo-gotls@docker
+      - traefik.http.routers.lilo-web-subs-http.priority=10
+      - traefik.http.routers.lilo-web-subs-http.service=lilo-web
 
 networks:
   traefik_edge:
