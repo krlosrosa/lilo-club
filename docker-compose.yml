@@ -1,20 +1,68 @@
-# Produção: Web (/) + API (/api) no mesmo host via Traefik.
-# A stack tem de usar a MESMA rede Docker à qual o Traefik está ligado.
-# Defina TRAEFIK_NETWORK nas variáveis da stack (Portainer) — ex.: proxy, web, traefik-public.
-#   docker network ls   # veja o nome real (no teu host costuma ser "proxy").
+# Produção: Traefik DENTRO da stack (Portainer sem acesso ao Traefik externo).
+# Wildcard TLS *.DOMAIN via Cloudflare DNS-01 challenge.
 #
-# === PORTAINER: SEM env_file NESTE FICHEIRO ===
-# Se aparecer: "env file /data/compose/.../.env not found" → o YAML na stack AINDA tem
-# `env_file: .env` (ou herdado de template). No editor da stack: Ctrl+F "env_file" e
-# REMOVA esse bloco inteiro; depois cole de novo este ficheiro do repositório (Git pull).
-# NÃO marque opções do tipo "anexar .env ao serviço" se isso recriar `env_file`.
-# Variáveis: só "Environment variables" da stack + ${VAR} abaixo (ver .env.docker.example).
+# VARIÁVEIS obrigatórias no Portainer (Environment variables da stack):
+#   DOMAIN                    ex: seuapp.com
+#   DOMAIN_TRAEFIK_REGEX_SUFFIX  ex: seuapp\.com   (ponto escapado com \\)
+#   TRAEFIK_ACME_EMAIL        ex: voce@email.com
+#   CF_DNS_API_TOKEN          token Cloudflare com permissão Zone:DNS:Edit
+#   DATABASE_URL
+#   GOOGLE_CLIENT_ID
+#   GOOGLE_CLIENT_SECRET
+#   JWT_SECRET
+#   JWT_EXPIRES_IN            (padrão: 1h)
+#   JWT_COOKIE_NAME           (padrão: access_token)
+#   JWT_COOKIE_MAX_AGE_MS     (padrão: 3600000)
+#   R2_ACCOUNT_ID
+#   R2_ACCESS_KEY_ID
+#   R2_SECRET_ACCESS_KEY
+#   R2_BUCKET
+#   R2_PUBLIC_BASE_URL        (opcional)
 #
-# CLI local: `docker compose --env-file .env up -d` ou exporte as mesmas variáveis.
+# Token Cloudflare: https://dash.cloudflare.com/profile/api-tokens
+#   → Create Token → Edit zone DNS → Zone: seu domínio
 
 name: lilo-hub
 
 services:
+
+  # ─── TRAEFIK (embutido na stack) ────────────────────────────────────────────
+  traefik:
+    image: traefik:v3.3
+    restart: unless-stopped
+    command:
+      # API/dashboard (acessível só internamente)
+      - --api.dashboard=false
+      - --api.insecure=false
+      # Provider Docker
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=lilo-hub_internal
+      # Entrypoints
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      # ACME / Let's Encrypt via Cloudflare DNS-01
+      - --certificatesresolvers.cf.acme.email=${TRAEFIK_ACME_EMAIL}
+      - --certificatesresolvers.cf.acme.storage=/letsencrypt/acme.json
+      - --certificatesresolvers.cf.acme.dnschallenge=true
+      - --certificatesresolvers.cf.acme.dnschallenge.provider=cloudflare
+      - --certificatesresolvers.cf.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53
+      # Logs
+      - --log.level=INFO
+    environment:
+      CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - letsencrypt:/letsencrypt
+    networks:
+      - internal
+    labels:
+      - traefik.enable=false   # o próprio Traefik não precisa de rota
+
+  # ─── API (NestJS) ────────────────────────────────────────────────────────────
   api:
     build:
       context: .
@@ -23,10 +71,10 @@ services:
     environment:
       NODE_ENV: production
       PORT: "4000"
-      # Postgres noutro servidor: defina DATABASE_URL na stack (Portainer) ou no `.env` da raiz (compose --env-file).
       DATABASE_URL: ${DATABASE_URL}
       SWAGGER_ENABLED: "false"
-      CORS_ORIGINS: "https://${DOMAIN}"
+      # CORS: aceita apex + qualquer subdomínio
+      CORS_ORIGINS: "https://${DOMAIN},https://*.${DOMAIN}"
       WEB_APP_URL: "https://${DOMAIN}"
       GOOGLE_CALLBACK_URL: "https://${DOMAIN}/api/auth/google/callback"
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
@@ -40,25 +88,47 @@ services:
       R2_SECRET_ACCESS_KEY: ${R2_SECRET_ACCESS_KEY}
       R2_BUCKET: ${R2_BUCKET}
       R2_PUBLIC_BASE_URL: ${R2_PUBLIC_BASE_URL:-}
+    depends_on:
+      - traefik
     networks:
-      - traefik_edge
       - internal
     labels:
       - traefik.enable=true
-      - traefik.docker.network=${TRAEFIK_NETWORK}
+      # Apex + subdomínios → /api (prioridade alta)
       - traefik.http.routers.lilo-api-secure.rule=Host(`${DOMAIN}`) && PathPrefix(`/api`)
       - traefik.http.routers.lilo-api-secure.entrypoints=websecure
       - traefik.http.routers.lilo-api-secure.tls=true
-      - traefik.http.routers.lilo-api-secure.tls.certresolver=${TRAEFIK_CERT_RESOLVER}
+      - traefik.http.routers.lilo-api-secure.tls.certresolver=cf
+      # Wildcard cert cobre *.DOMAIN; SAN cobre o apex
+      - traefik.http.routers.lilo-api-secure.tls.domains[0].main=${DOMAIN}
+      - traefik.http.routers.lilo-api-secure.tls.domains[0].sans=*.${DOMAIN}
       - traefik.http.routers.lilo-api-secure.priority=100
       - traefik.http.routers.lilo-api-secure.service=lilo-api
       - traefik.http.services.lilo-api.loadbalancer.server.port=4000
+      # HTTP → HTTPS redirect para /api
       - traefik.http.routers.lilo-api-http.rule=Host(`${DOMAIN}`) && PathPrefix(`/api`)
       - traefik.http.routers.lilo-api-http.entrypoints=web
       - traefik.http.routers.lilo-api-http.middlewares=lilo-gotls@docker
       - traefik.http.routers.lilo-api-http.priority=100
       - traefik.http.routers.lilo-api-http.service=lilo-api
+      # Subdomínios → /api (ex: tenant1.seuapp.com/api)
+      - traefik.http.routers.lilo-api-subs-secure.rule=HostRegexp(`(?i)^.+\\.${DOMAIN_TRAEFIK_REGEX_SUFFIX}$`) && PathPrefix(`/api`)
+      - traefik.http.routers.lilo-api-subs-secure.ruleSyntax=v3
+      - traefik.http.routers.lilo-api-subs-secure.entrypoints=websecure
+      - traefik.http.routers.lilo-api-subs-secure.tls=true
+      - traefik.http.routers.lilo-api-subs-secure.tls.certresolver=cf
+      - traefik.http.routers.lilo-api-subs-secure.tls.domains[0].main=${DOMAIN}
+      - traefik.http.routers.lilo-api-subs-secure.tls.domains[0].sans=*.${DOMAIN}
+      - traefik.http.routers.lilo-api-subs-secure.priority=100
+      - traefik.http.routers.lilo-api-subs-secure.service=lilo-api
+      - traefik.http.routers.lilo-api-subs-http.rule=HostRegexp(`(?i)^.+\\.${DOMAIN_TRAEFIK_REGEX_SUFFIX}$`) && PathPrefix(`/api`)
+      - traefik.http.routers.lilo-api-subs-http.ruleSyntax=v3
+      - traefik.http.routers.lilo-api-subs-http.entrypoints=web
+      - traefik.http.routers.lilo-api-subs-http.middlewares=lilo-gotls@docker
+      - traefik.http.routers.lilo-api-subs-http.priority=100
+      - traefik.http.routers.lilo-api-subs-http.service=lilo-api
 
+  # ─── WEB (Next.js) ───────────────────────────────────────────────────────────
   web:
     build:
       context: .
@@ -69,23 +139,25 @@ services:
     environment:
       NODE_ENV: production
       PORT: "3000"
+      # Chamadas server-side → API pelo nome do serviço Docker (sem passar pela internet)
       API_INTERNAL_URL: http://api:4000/api
       NEXT_PUBLIC_API_URL: https://${DOMAIN}/api
     depends_on:
       - api
     networks:
-      - traefik_edge
       - internal
     labels:
       - traefik.enable=true
-      - traefik.docker.network=${TRAEFIK_NETWORK}
+      # Middleware global: HTTP → HTTPS
       - traefik.http.middlewares.lilo-gotls.redirectscheme.scheme=https
       - traefik.http.middlewares.lilo-gotls.redirectscheme.permanent=true
-      # Apex: só Host(DOMAIN) — igual ao comportamento original (regex à parte não pode partir o principal).
+      # ── Apex (seuapp.com) ──
       - traefik.http.routers.lilo-web-secure.rule=Host(`${DOMAIN}`)
       - traefik.http.routers.lilo-web-secure.entrypoints=websecure
       - traefik.http.routers.lilo-web-secure.tls=true
-      - traefik.http.routers.lilo-web-secure.tls.certresolver=${TRAEFIK_CERT_RESOLVER}
+      - traefik.http.routers.lilo-web-secure.tls.certresolver=cf
+      - traefik.http.routers.lilo-web-secure.tls.domains[0].main=${DOMAIN}
+      - traefik.http.routers.lilo-web-secure.tls.domains[0].sans=*.${DOMAIN}
       - traefik.http.routers.lilo-web-secure.priority=10
       - traefik.http.routers.lilo-web-secure.service=lilo-web
       - traefik.http.services.lilo-web.loadbalancer.server.port=3000
@@ -94,13 +166,15 @@ services:
       - traefik.http.routers.lilo-web-http.middlewares=lilo-gotls@docker
       - traefik.http.routers.lilo-web-http.priority=10
       - traefik.http.routers.lilo-web-http.service=lilo-web
-      # Subdomínios: HostRegexp estilo doc Traefik v3 — ^.+\.<domínio escapado>$
-      # ruleSyntax=v3 evita o parser v2 interpretar mal a regex (causa típica de 404 só no subdomínio em Traefik 3).
+      # ── Subdomínios (tenant1.seuapp.com, tenant2.seuapp.com, ...) ──
+      # O wildcard cert *.seuapp.com já cobre todos — sem emissão por subdomínio.
       - traefik.http.routers.lilo-web-subs-secure.rule=HostRegexp(`(?i)^.+\\.${DOMAIN_TRAEFIK_REGEX_SUFFIX}$`)
       - traefik.http.routers.lilo-web-subs-secure.ruleSyntax=v3
       - traefik.http.routers.lilo-web-subs-secure.entrypoints=websecure
       - traefik.http.routers.lilo-web-subs-secure.tls=true
-      - traefik.http.routers.lilo-web-subs-secure.tls.certresolver=${TRAEFIK_CERT_RESOLVER}
+      - traefik.http.routers.lilo-web-subs-secure.tls.certresolver=cf
+      - traefik.http.routers.lilo-web-subs-secure.tls.domains[0].main=${DOMAIN}
+      - traefik.http.routers.lilo-web-subs-secure.tls.domains[0].sans=*.${DOMAIN}
       - traefik.http.routers.lilo-web-subs-secure.priority=10
       - traefik.http.routers.lilo-web-subs-secure.service=lilo-web
       - traefik.http.routers.lilo-web-subs-http.rule=HostRegexp(`(?i)^.+\\.${DOMAIN_TRAEFIK_REGEX_SUFFIX}$`)
@@ -111,8 +185,8 @@ services:
       - traefik.http.routers.lilo-web-subs-http.service=lilo-web
 
 networks:
-  traefik_edge:
-    name: ${TRAEFIK_NETWORK}
-    external: true
   internal:
     driver: bridge
+
+volumes:
+  letsencrypt:   # persiste o acme.json entre redeploys
