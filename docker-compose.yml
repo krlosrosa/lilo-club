@@ -19,49 +19,23 @@
 #   R2_BUCKET
 #   R2_PUBLIC_BASE_URL        (opcional)
 #
+# CONFLITO "Bind for 0.0.0.0:80 failed: port is already allocated"
+#   Só pode haver UM serviço a publicar 80/443 neste host (outro Traefik, Nginx, Apache, outra stack).
+#   Opções: (1) Parar o contentor que usa 80: docker ps e ver PORTS, ou na stack antiga → Stop.
+#   (2) Se já tens Traefik/nginx na frente, não uses Traefik embutido aqui — usa esse proxy.
+#   (3) Temporário/alternativo: define TRAEFIK_PUBLISH_HTTP e TRAEFIK_PUBLISH_HTTPS abaixo (ex.: 8080 e 8443);
+#       nesse caso o tráfego público tem de chegar a essas portas (ou ajusta o proxy que está na frente).
+#
+#   (opcional, padrão 80 e 443 no host)
+#   TRAEFIK_PUBLISH_HTTP=80
+#   TRAEFIK_PUBLISH_HTTPS=443
+#
 # Token Cloudflare: https://dash.cloudflare.com/profile/api-tokens
 #   → Create Token → Edit zone DNS → Zone: seu domínio
 
 name: lilo-hub
 
 services:
-
-  # ─── TRAEFIK (embutido na stack) ────────────────────────────────────────────
-  traefik:
-    image: traefik:v3.3
-    restart: unless-stopped
-    command:
-      # API/dashboard (acessível só internamente)
-      - --api.dashboard=false
-      - --api.insecure=false
-      # Provider Docker
-      - --providers.docker=true
-      - --providers.docker.exposedbydefault=false
-      - --providers.docker.network=lilo-hub_internal
-      # Entrypoints
-      - --entrypoints.web.address=:80
-      - --entrypoints.websecure.address=:443
-      # ACME / Let's Encrypt via Cloudflare DNS-01
-      - --certificatesresolvers.cf.acme.email=${TRAEFIK_ACME_EMAIL}
-      - --certificatesresolvers.cf.acme.storage=/letsencrypt/acme.json
-      - --certificatesresolvers.cf.acme.dnschallenge=true
-      - --certificatesresolvers.cf.acme.dnschallenge.provider=cloudflare
-      - --certificatesresolvers.cf.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53
-      # Logs
-      - --log.level=INFO
-    environment:
-      CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - letsencrypt:/letsencrypt
-    networks:
-      - internal
-    labels:
-      - traefik.enable=false   # o próprio Traefik não precisa de rota
-
   # ─── API (NestJS) ────────────────────────────────────────────────────────────
   api:
     build:
