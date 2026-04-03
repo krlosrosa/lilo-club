@@ -1,15 +1,11 @@
 "use client";
 
-import { createApiClient } from "@lilo-hub/clients";
 import { useMemo } from "react";
 import { useHealthQuery } from "@/hooks/use-health-query";
-import { getApiBaseUrl } from "@/lib/auth";
+import { createBrowserApiClient, getApiBaseUrl } from "@/lib/auth";
 
 export function HealthStatus() {
-  const api = useMemo(
-    () => createApiClient({ baseUrl: getApiBaseUrl() }),
-    [],
-  );
+  const api = useMemo(() => createBrowserApiClient(), []);
   const { data, isLoading, isError } = useHealthQuery(api);
 
   if (isLoading) {

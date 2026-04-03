@@ -49,6 +49,8 @@ import {
   type SuggestEstabelecimentoHorarioResponse,
 } from '@lilo-hub/contracts';
 
+export type HostContext = { domain: string; subdomain: string };
+
 export type ApiClientConfig = {
   baseUrl: string;
   fetchImpl?: typeof fetch;
@@ -56,19 +58,25 @@ export type ApiClientConfig = {
   credentials?: RequestCredentials;
   /** Token Bearer; omitir em fluxo só com cookie HttpOnly + `credentials: 'include'`. */
   getAccessToken?: () => string | null;
+  /** Enviado como `X-Host-Domain` e `X-Host-Subdomain` em cada pedido ao backend. */
+  getHostContext?: () => HostContext;
 };
 
-function buildHeaders(
-  getAccessToken?: () => string | null,
-  contentTypeJson = true,
-): HeadersInit {
+type HeaderConfig = Pick<ApiClientConfig, 'getAccessToken' | 'getHostContext'>;
+
+function buildHeaders(config: HeaderConfig, contentTypeJson = true): HeadersInit {
   const headers: Record<string, string> = {};
   if (contentTypeJson) {
     headers['Content-Type'] = 'application/json';
   }
-  const token = getAccessToken?.();
+  const token = config.getAccessToken?.();
   if (token) {
     headers.Authorization = `Bearer ${token}`;
+  }
+  const host = config.getHostContext?.();
+  if (host) {
+    headers['X-Host-Domain'] = host.domain;
+    headers['X-Host-Subdomain'] = host.subdomain;
   }
   return headers;
 }
@@ -96,7 +104,7 @@ export function createApiClient(config: ApiClientConfig) {
       ...init,
       credentials,
       headers: {
-        ...buildHeaders(config.getAccessToken),
+        ...buildHeaders(config),
         ...(init?.headers as Record<string, string> | undefined),
       },
     });
@@ -105,7 +113,10 @@ export function createApiClient(config: ApiClientConfig) {
 
   return {
     async getHealth(): Promise<HealthResponse> {
-      const res = await fetchFn(`${base}/health`);
+      const res = await fetchFn(`${base}/health`, {
+        credentials,
+        headers: buildHeaders(config, false),
+      });
       return parseJson(res, healthResponseSchema);
     },
 
@@ -125,7 +136,7 @@ export function createApiClient(config: ApiClientConfig) {
       const res = await fetchFn(`${base}/auth/logout`, {
         method: 'POST',
         credentials,
-        headers: buildHeaders(config.getAccessToken),
+        headers: buildHeaders(config),
       });
       if (!res.ok) {
         throw new Error(`Logout failed: ${res.status}`);
@@ -207,7 +218,7 @@ export function createApiClient(config: ApiClientConfig) {
     ): Promise<EstabelecimentoEndereco | null> {
       const res = await fetchFn(`${base}/estabelecimentos/${id}/endereco`, {
         credentials,
-        headers: buildHeaders(config.getAccessToken),
+        headers: buildHeaders(config),
       });
       if (!res.ok) {
         const text = await res.text();
@@ -274,7 +285,7 @@ export function createApiClient(config: ApiClientConfig) {
       const res = await fetchFn(`${base}/estabelecimentos/${id}/midias`, {
         method: 'POST',
         credentials,
-        headers: buildHeaders(config.getAccessToken, false),
+        headers: buildHeaders(config, false),
         body: fd,
       });
       return parseJson(res, midiaUploadResponseSchema);
@@ -284,7 +295,7 @@ export function createApiClient(config: ApiClientConfig) {
       const res = await fetchFn(`${base}/estabelecimentos/${id}/midias/${midiaId}`, {
         method: 'DELETE',
         credentials,
-        headers: buildHeaders(config.getAccessToken),
+        headers: buildHeaders(config),
       });
       if (!res.ok) {
         const text = await res.text();

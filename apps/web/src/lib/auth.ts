@@ -1,4 +1,11 @@
-import { createApiClient } from "@lilo-hub/clients";
+import { createApiClient, parseHost } from "@lilo-hub/clients";
+
+function browserHostContext() {
+  if (typeof window === "undefined") {
+    return { domain: "", subdomain: "" };
+  }
+  return parseHost(window.location.host);
+}
 
 /**
  * Base `/api` do app.
@@ -21,5 +28,6 @@ export function createBrowserApiClient() {
   return createApiClient({
     baseUrl: getApiBaseUrl(),
     credentials: "include",
+    getHostContext: browserHostContext,
   });
 }

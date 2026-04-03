@@ -9,6 +9,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./parse-host": {
+      "types": "./dist/parse-host.d.ts",
+      "import": "./dist/parse-host.js"
     }
   },
   "files": [
