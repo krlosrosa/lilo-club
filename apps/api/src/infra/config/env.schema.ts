@@ -2,6 +2,13 @@ import { z } from 'zod';
 
 export const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+  DATABASE_URL: z
+    .string()
+    .min(1)
+    .transform((s) => s.trim())
+    .refine((u) => u.startsWith('postgres'), {
+      message: 'DATABASE_URL tem de começar por postgresql:// ou postgres://',
+    }),
   PORT: z.coerce.number().optional().default(3001),
   SWAGGER_ENABLED: z.preprocess(
     (val: unknown) => {
