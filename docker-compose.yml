@@ -1,37 +1,18 @@
-# Produção: Traefik DENTRO da stack (Portainer sem acesso ao Traefik externo).
-# Wildcard TLS *.DOMAIN via Cloudflare DNS-01 challenge.
+# Produção: stack só com API + WEB. Traefik fica noutro contentor/stack (ex.: Portainer).
+# As labels traefik.* abaixo são lidas pelo Traefik externo (provider Docker na mesma rede/host).
 #
-# VARIÁVEIS obrigatórias no Portainer (Environment variables da stack):
-#   DOMAIN                    ex: seuapp.com
-#   DOMAIN_TRAEFIK_REGEX_SUFFIX  ex: seuapp\.com   (em Portainer: um \ antes de cada . do host, p.ex. guia\.exemplo\.com\.br)
-#   TRAEFIK_ACME_EMAIL        ex: voce@email.com
-#   CF_DNS_API_TOKEN          token Cloudflare com permissão Zone:DNS:Edit
+# VARIÁVEIS (Environment variables da stack no Portainer):
+#   DOMAIN
+#   DOMAIN_TRAEFIK_REGEX_SUFFIX  ex: seu\.com  (escapar cada .)
 #   DATABASE_URL
-#   GOOGLE_CLIENT_ID
-#   GOOGLE_CLIENT_SECRET
+#   GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET
 #   JWT_SECRET
 #   JWT_EXPIRES_IN            (padrão: 1h)
 #   JWT_COOKIE_NAME           (padrão: access_token)
 #   JWT_COOKIE_MAX_AGE_MS     (padrão: 3600000)
-#   R2_ACCOUNT_ID
-#   R2_ACCESS_KEY_ID
-#   R2_SECRET_ACCESS_KEY
-#   R2_BUCKET
-#   R2_PUBLIC_BASE_URL        (opcional)
+#   R2_*  (conta, keys, bucket; R2_PUBLIC_BASE_URL opcional)
 #
-# CONFLITO "Bind for 0.0.0.0:80 failed: port is already allocated"
-#   Só pode haver UM serviço a publicar 80/443 neste host (outro Traefik, Nginx, Apache, outra stack).
-#   Opções: (1) Parar o contentor que usa 80: docker ps e ver PORTS, ou na stack antiga → Stop.
-#   (2) Se já tens Traefik/nginx na frente, não uses Traefik embutido aqui — usa esse proxy.
-#   (3) Temporário/alternativo: define TRAEFIK_PUBLISH_HTTP e TRAEFIK_PUBLISH_HTTPS abaixo (ex.: 8080 e 8443);
-#       nesse caso o tráfego público tem de chegar a essas portas (ou ajusta o proxy que está na frente).
-#
-#   (opcional, padrão 80 e 443 no host)
-#   TRAEFIK_PUBLISH_HTTP=80
-#   TRAEFIK_PUBLISH_HTTPS=443
-#
-# Token Cloudflare: https://dash.cloudflare.com/profile/api-tokens
-#   → Create Token → Edit zone DNS → Zone: seu domínio
+# Garante que o Traefik externo partilha rede Docker com estes serviços (ou equivalente).
 
 name: lilo-hub
 
@@ -62,8 +43,6 @@ services:
       R2_SECRET_ACCESS_KEY: ${R2_SECRET_ACCESS_KEY}
       R2_BUCKET: ${R2_BUCKET}
       R2_PUBLIC_BASE_URL: ${R2_PUBLIC_BASE_URL:-}
-    depends_on:
-      - traefik
     networks:
       - internal
     labels:
@@ -73,7 +52,6 @@ services:
       - traefik.http.routers.lilo-api-secure.entrypoints=websecure
       - traefik.http.routers.lilo-api-secure.tls=true
       - traefik.http.routers.lilo-api-secure.tls.certresolver=cf
-      # Wildcard cert cobre *.DOMAIN; SAN cobre o apex
       - traefik.http.routers.lilo-api-secure.tls.domains[0].main=${DOMAIN}
       - traefik.http.routers.lilo-api-secure.tls.domains[0].sans=*.${DOMAIN}
       - traefik.http.routers.lilo-api-secure.priority=100
@@ -141,7 +119,6 @@ services:
       - traefik.http.routers.lilo-web-http.priority=10
       - traefik.http.routers.lilo-web-http.service=lilo-web
       # ── Subdomínios (tenant1.seuapp.com, tenant2.seuapp.com, ...) ──
-      # O wildcard cert *.seuapp.com já cobre todos — sem emissão por subdomínio.
       - traefik.http.routers.lilo-web-subs-secure.rule=HostRegexp(`(?i)^.+\\.${DOMAIN_TRAEFIK_REGEX_SUFFIX}\\z`)
       - traefik.http.routers.lilo-web-subs-secure.ruleSyntax=v3
       - traefik.http.routers.lilo-web-subs-secure.entrypoints=websecure
@@ -161,6 +138,3 @@ services:
 networks:
   internal:
     driver: bridge
-
-volumes:
-  letsencrypt:   # persiste o acme.json entre redeploys
