@@ -28,6 +28,8 @@ export const envSchema = z.object({
   JWT_EXPIRES_IN: z.string().default('1h'),
   JWT_COOKIE_NAME: z.string().default('access_token'),
   JWT_COOKIE_MAX_AGE_MS: z.coerce.number().default(3_600_000),
+  /** Definir em produção com multi-subdomínio (ex.: DOMAIN sem https) para o JWT ser enviado em *.domínio. */
+  JWT_COOKIE_DOMAIN: z.string().min(1).optional(),
   WEB_APP_URL: z.string().url(),
   R2_ACCOUNT_ID: z.string().min(1),
   R2_ACCESS_KEY_ID: z.string().min(1),

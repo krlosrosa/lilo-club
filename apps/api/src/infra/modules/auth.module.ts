@@ -6,6 +6,7 @@ import { AuthenticateWithGoogleUsecase } from '../../application/usecases/authen
 import { GetAuthMeUsecase } from '../../application/usecases/get-auth-me.usecase.js';
 import { PatchAuthMeProfileUsecase } from '../../application/usecases/patch-auth-me-profile.usecase.js';
 import { USER_REPOSITORY } from '../../domain/repositories/user.repository.js';
+import { GoogleOAuthInitGuard } from '../auth/google-oauth-init.guard.js';
 import { JwtStrategy } from '../auth/strategies/jwt.strategy.js';
 import { GoogleStrategy } from '../auth/strategies/google.strategy.js';
 import { UserRepositoryService } from '../db/user/user.service.js';
@@ -31,6 +32,7 @@ import { RedirectGoogleAuthController } from '../../presentation/controllers/aut
     }),
   ],
   providers: [
+    GoogleOAuthInitGuard,
     GoogleStrategy,
     JwtStrategy,
     AuthenticateWithGoogleUsecase,
