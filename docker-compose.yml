@@ -94,17 +94,17 @@ services:
       - traefik.http.routers.lilo-web-http.middlewares=lilo-gotls@docker
       - traefik.http.routers.lilo-web-http.priority=10
       - traefik.http.routers.lilo-web-http.service=lilo-web
-      # Subdomínios: HostRegexp estilo doc Traefik v3 — ^.+\.<domínio escapado>$
-      # ruleSyntax=v3 evita o parser v2 interpretar mal a regex (causa típica de 404 só no subdomínio em Traefik 3).
-      - traefik.http.routers.lilo-web-subs-secure.rule=HostRegexp(`(?i)^.+\\.${DOMAIN_TRAEFIK_REGEX_SUFFIX}$`)
-      - traefik.http.routers.lilo-web-subs-secure.ruleSyntax=v3
+      # Subdomínios: HostRegexp v2 temporário {subdomain:.+}.${DOMAIN} (subprefixo mais permissivo que [a-z0-9-]+).
+      # Label entre aspas: chaves {subdomain:...} quebram YAML se a linha não for string.
+      - "traefik.http.routers.lilo-web-subs-secure.rule=HostRegexp(`{subdomain:.+}.${DOMAIN}`)"
+      - traefik.http.routers.lilo-web-subs-secure.ruleSyntax=v2
       - traefik.http.routers.lilo-web-subs-secure.entrypoints=websecure
       - traefik.http.routers.lilo-web-subs-secure.tls=true
       - traefik.http.routers.lilo-web-subs-secure.tls.certresolver=${TRAEFIK_CERT_RESOLVER}
       - traefik.http.routers.lilo-web-subs-secure.priority=10
       - traefik.http.routers.lilo-web-subs-secure.service=lilo-web
-      - traefik.http.routers.lilo-web-subs-http.rule=HostRegexp(`(?i)^.+\\.${DOMAIN_TRAEFIK_REGEX_SUFFIX}$`)
-      - traefik.http.routers.lilo-web-subs-http.ruleSyntax=v3
+      - "traefik.http.routers.lilo-web-subs-http.rule=HostRegexp(`{subdomain:.+}.${DOMAIN}`)"
+      - traefik.http.routers.lilo-web-subs-http.ruleSyntax=v2
       - traefik.http.routers.lilo-web-subs-http.entrypoints=web
       - traefik.http.routers.lilo-web-subs-http.middlewares=lilo-gotls@docker
       - traefik.http.routers.lilo-web-subs-http.priority=10
