@@ -3,7 +3,7 @@
 #
 # VARIÁVEIS obrigatórias no Portainer (Environment variables da stack):
 #   DOMAIN                    ex: seuapp.com
-#   DOMAIN_TRAEFIK_REGEX_SUFFIX  ex: seuapp\.com   (ponto escapado com \\)
+#   DOMAIN_TRAEFIK_REGEX_SUFFIX  ex: seuapp\.com   (em Portainer: um \ antes de cada . do host, p.ex. guia\.exemplo\.com\.br)
 #   TRAEFIK_ACME_EMAIL        ex: voce@email.com
 #   CF_DNS_API_TOKEN          token Cloudflare com permissão Zone:DNS:Edit
 #   DATABASE_URL
@@ -111,8 +111,8 @@ services:
       - traefik.http.routers.lilo-api-http.middlewares=lilo-gotls@docker
       - traefik.http.routers.lilo-api-http.priority=100
       - traefik.http.routers.lilo-api-http.service=lilo-api
-      # Subdomínios → /api (ex: tenant1.seuapp.com/api)
-      - traefik.http.routers.lilo-api-subs-secure.rule=HostRegexp(`(?i)^.+\\.${DOMAIN_TRAEFIK_REGEX_SUFFIX}$`) && PathPrefix(`/api`)
+      # Subdomínios → /api (ex: tenant1.seuapp.com/api). \\z = fim (evita $ — Compose interpolava mal).
+      - traefik.http.routers.lilo-api-subs-secure.rule=HostRegexp(`(?i)^.+\\.${DOMAIN_TRAEFIK_REGEX_SUFFIX}\\z`) && PathPrefix(`/api`)
       - traefik.http.routers.lilo-api-subs-secure.ruleSyntax=v3
       - traefik.http.routers.lilo-api-subs-secure.entrypoints=websecure
       - traefik.http.routers.lilo-api-subs-secure.tls=true
@@ -121,7 +121,7 @@ services:
       - traefik.http.routers.lilo-api-subs-secure.tls.domains[0].sans=*.${DOMAIN}
       - traefik.http.routers.lilo-api-subs-secure.priority=100
       - traefik.http.routers.lilo-api-subs-secure.service=lilo-api
-      - traefik.http.routers.lilo-api-subs-http.rule=HostRegexp(`(?i)^.+\\.${DOMAIN_TRAEFIK_REGEX_SUFFIX}$`) && PathPrefix(`/api`)
+      - traefik.http.routers.lilo-api-subs-http.rule=HostRegexp(`(?i)^.+\\.${DOMAIN_TRAEFIK_REGEX_SUFFIX}\\z`) && PathPrefix(`/api`)
       - traefik.http.routers.lilo-api-subs-http.ruleSyntax=v3
       - traefik.http.routers.lilo-api-subs-http.entrypoints=web
       - traefik.http.routers.lilo-api-subs-http.middlewares=lilo-gotls@docker
@@ -168,7 +168,7 @@ services:
       - traefik.http.routers.lilo-web-http.service=lilo-web
       # ── Subdomínios (tenant1.seuapp.com, tenant2.seuapp.com, ...) ──
       # O wildcard cert *.seuapp.com já cobre todos — sem emissão por subdomínio.
-      - traefik.http.routers.lilo-web-subs-secure.rule=HostRegexp(`(?i)^.+\\.${DOMAIN_TRAEFIK_REGEX_SUFFIX}$`)
+      - traefik.http.routers.lilo-web-subs-secure.rule=HostRegexp(`(?i)^.+\\.${DOMAIN_TRAEFIK_REGEX_SUFFIX}\\z`)
       - traefik.http.routers.lilo-web-subs-secure.ruleSyntax=v3
       - traefik.http.routers.lilo-web-subs-secure.entrypoints=websecure
       - traefik.http.routers.lilo-web-subs-secure.tls=true
@@ -177,7 +177,7 @@ services:
       - traefik.http.routers.lilo-web-subs-secure.tls.domains[0].sans=*.${DOMAIN}
       - traefik.http.routers.lilo-web-subs-secure.priority=10
       - traefik.http.routers.lilo-web-subs-secure.service=lilo-web
-      - traefik.http.routers.lilo-web-subs-http.rule=HostRegexp(`(?i)^.+\\.${DOMAIN_TRAEFIK_REGEX_SUFFIX}$`)
+      - traefik.http.routers.lilo-web-subs-http.rule=HostRegexp(`(?i)^.+\\.${DOMAIN_TRAEFIK_REGEX_SUFFIX}\\z`)
       - traefik.http.routers.lilo-web-subs-http.ruleSyntax=v3
       - traefik.http.routers.lilo-web-subs-http.entrypoints=web
       - traefik.http.routers.lilo-web-subs-http.middlewares=lilo-gotls@docker
